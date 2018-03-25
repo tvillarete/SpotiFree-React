@@ -11,7 +11,7 @@ export default class TrackButton extends Component {
 
     handleMainEvent() {
         this.props.onEvent({
-            type: 'play',
+            type: 'play-new',
             value: {
                 name: this.props.name,
                 artist: this.props.artist,

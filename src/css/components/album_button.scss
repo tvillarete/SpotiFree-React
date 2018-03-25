@@ -1,0 +1,28 @@
+.album-button {
+    width: 200px;
+    margin: 0 1em 1em 1em;
+    cursor: pointer;
+    animation: fadein 0.25s;
+
+    img {
+        height: 200px;
+        max-height: 200px;
+        border: 1px solid lightgray;
+        box-sizing: border-box;
+    }
+
+    .album-button-text, .album-button-subtext {
+        font-size: 1em;
+        margin: 0.3em 0;
+    }
+
+    .album-button-subtext {
+        color: rgb(150,150,150);
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+    }
+}

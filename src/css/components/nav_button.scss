@@ -1,0 +1,22 @@
+.nav-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 3em;
+    padding-left: 0.5em;
+    color: #ff2d55;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+
+    &.black {
+        color: black;
+    }
+
+    .text {
+        margin: 0;
+    }
+
+    .subtext {
+        display: none;
+    }
+}

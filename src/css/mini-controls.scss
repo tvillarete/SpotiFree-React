@@ -1,0 +1,54 @@
+.mini-controls {
+    position: relative;
+    height: 5em;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transition: all 0.25s ease-in-out;
+
+    &.fullscreen {
+        opacity: 0;
+
+        svg {
+            display: none;
+        }
+    }
+
+    .info-container {
+        display: flex;
+        align-content: center;
+        flex: 1;
+    }
+
+    .song-title {
+        flex: 1;
+        min-width: 0;
+        h3 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .artwork {
+        height: 75%;
+        width: 3.75em;
+        margin: auto 0.5em;
+        box-shadow: 0 0 10px darkgray;
+        border-radius: 2px;
+        background-size: cover;
+        transition: background 1s;
+    }
+
+    .button-container {
+        display: flex;
+        align-items: center;
+        padding-right: 1em;
+    }
+
+    svg {
+        height: 2em;
+        width: 2em;
+        margin: auto 1em;
+    }
+}

@@ -1,0 +1,16 @@
+.playback-controls {
+    display: flex;
+    flex-direction: column;
+
+    .artwork-container {
+        display: flex;
+        justify-content: center;
+        flex: 1;
+
+        img {
+            height: 100%;
+            width: auto;
+
+        }
+    }
+}

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import NavButton from './components/NavButton';
+import AlbumButton from './components/AlbumButton';
+import Header from '../Header';
 
-export default class ArtistListView extends Component {
-    constructor() {
-        super();
+export default class ArtistView extends Component {
+    constructor(props) {
+        super(props);
         this.state = {
-            data: null,
+            data: props.data.memoized,
         }
         this.handleEvent = this.handleEvent.bind(this);
-        this.renderArtistButtons = this.renderArtistButtons.bind(this);
-        this.fetchArtists = this.fetchArtists.bind(this);
+        this.renderAlbumButtons = this.renderAlbumButtons.bind(this);
+        this.fetchAlbums = this.fetchAlbums.bind(this);
     }
 
     // Passes event to SpotiFree.js
@@ -17,45 +18,54 @@ export default class ArtistListView extends Component {
         this.props.onEvent(options);
     }
 
-    fetchArtists() {
-        fetch('http://tannerv.ddns.net:3000/api/artists')
+    fetchAlbums() {
+        fetch(`http://tannerv.ddns.net:3000/api/artist/${this.props.artist}`)
             .then(response => {
-                response.json().then((data) => {
+                response.json().then((albums) => {
                     this.setState({
-                        data: data,
+                        data: albums,
+                    });
+                    this.handleEvent({
+                        type: 'memoize',
+                        memoized: albums,
                     });
                 });
             });
     }
 
-    renderArtistButtons() {
-        let artistButtons = [];
+    renderAlbumButtons() {
+        let albumButtons = [];
 
         this.state.data.forEach(data => {
-            artistButtons.push(
-                <NavButton
-                 key={data.artist}
-                 type="view"
-                 view="artist"
-                 text={data.artist}
+            albumButtons.push(
+                <AlbumButton
+                 key={data.album}
+                 title={data.album}
+                 artist={data.artist}
+                 category="album"
+                 artwork={data.artwork}
                  onEvent={this.handleEvent}/>
             );
         });
-        return artistButtons;
+        return albumButtons;
     }
 
     componentWillMount() {
-        this.fetchArtists();
+        if (!this.state.data) {
+            this.fetchAlbums();
+        }
     }
 
     render() {
-        if (!this.state.data) {
-            return <h3>Loading...</h3>;
-        }
         return (
-            <div className="view artist-list-view">
-                <h1>Artists</h1>
-                {this.renderArtistButtons()}
+            <div className="view artist-view">
+                <Header
+                 text={this.props.artist}
+                 backText="Artists"
+                 onEvent={this.handleEvent}/>
+                <div className="album-list-container">
+                    {this.state.data ? this.renderAlbumButtons() : <h3>Loading...</h3>}
+                </div>
             </div>
         );
     }

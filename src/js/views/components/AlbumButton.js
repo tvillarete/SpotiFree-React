@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FadeIn from "react-lazyload-fadein";
 
 export default class AlbumButton extends Component {
     constructor(props) {
@@ -9,8 +10,12 @@ export default class AlbumButton extends Component {
     handleMainEvent() {
         this.props.onEvent({
             type: 'view',
-            category: 'album',
-            value: {album: this.props.title, artist: this.props.artist}
+            category: this.props.category, /* artist, album */
+            value: {
+                view: this.props.title,
+                artist: this.props.artist,
+                artwork: this.props.artwork,
+            }
         });
     }
 
@@ -18,7 +23,10 @@ export default class AlbumButton extends Component {
         return (
             <div className="album-button"
              onClick={this.handleMainEvent}>
-                <img alt={this.props.title} src={this.props.artwork} />
+                <img
+                    alt={this.props.title}
+                    src={this.props.artwork}
+                 />
                 <h3 className="album-button-text">{this.props.title}</h3>
                 <h3 className="album-button-subtext">{this.props.artist}</h3>
             </div>

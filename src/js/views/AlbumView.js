@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import TrackButton from './components/TrackButton';
+import Header from '../Header';
 
 export default class AlbumView extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            data: null,
+            data: props.data.memoized,
         }
         this.handleEvent = this.handleEvent.bind(this);
         this.renderTrackButtons = this.renderTrackButtons.bind(this);
@@ -14,6 +15,20 @@ export default class AlbumView extends Component {
 
     // Passes event to SpotiFree.js
     handleEvent(options) {
+        if (options.type === 'play-new') {
+            let index = 0;
+            const data = this.state.data;
+            for (let track in data) {
+                const trackData = data[track];
+                if (trackData.name === options.value.name) {
+                    index = parseInt(track);
+                }
+            }
+            Object.assign(options, {
+                playlist: this.state.data,
+                index: index,
+            });
+        }
         this.props.onEvent(options);
     }
 
@@ -23,6 +38,10 @@ export default class AlbumView extends Component {
                 response.json().then((data) => {
                     this.setState({
                         data: data,
+                    });
+                    this.handleEvent({
+                        type: 'memoize',
+                        memoized: data,
                     });
                 });
             });
@@ -48,17 +67,41 @@ export default class AlbumView extends Component {
     }
 
     componentWillMount() {
-        this.fetchTracks();
+        if (!this.state.data) {
+            this.fetchTracks();
+        }
     }
 
     render() {
-        if (!this.state.data) {
-            return <h3>Loading...</h3>;
-        }
         return (
             <div className="view album-view">
-                <h1>{this.props.album}</h1>
-                {this.renderTrackButtons()}
+                <Header
+                 text={this.props.album}
+                 backText="Albums"
+                 onEvent={this.handleEvent}/>
+                <AlbumHeader
+                 title={this.props.album}
+                 artist={this.props.artist}
+                 artwork={this.props.artwork}/>
+                {this.state.data ? this.renderTrackButtons() : <h3>Loading</h3>}
+            </div>
+        );
+    }
+}
+
+class AlbumHeader extends Component {
+    constructor() {
+        super();
+        this.state = {
+
+        }
+    }
+
+    render() {
+        return(
+            <div className="album-header">
+                <img alt={this.props.title} src={this.props.artwork} />
+                <h3>{this.props.title}</h3>
             </div>
         );
     }

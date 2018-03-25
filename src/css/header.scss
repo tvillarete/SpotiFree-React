@@ -1,0 +1,36 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3em;
+    display: flex;
+    background: white;
+
+    .left-container, .mid-container, .right-container {
+        flex: 1;
+    }
+
+    .mid-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .header-title {
+        margin: auto 0;
+    }
+
+    .back-button {
+        display: flex;
+        height: 100%;
+        cursor: pointer;
+
+        h3, .svg {
+            margin: auto 0;
+        }
+
+        svg {
+            margin: auto 0;
+        }
+    }
+}

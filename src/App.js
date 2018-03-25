@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SpotiFree from './js/SpotiFree';
+import './main.css';
 
 class App extends Component {
     render() {

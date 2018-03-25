@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import AlbumButton from './components/AlbumButton';
+import Header from '../Header';
 
 export default class AlbumListView extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            data: null,
+            data: props.data.memoized,
         }
         this.handleEvent = this.handleEvent.bind(this);
         this.renderAlbumButtons = this.renderAlbumButtons.bind(this);
         this.fetchAlbums = this.fetchAlbums.bind(this);
+        this.getViewContents = this.getViewContents.bind(this);
     }
 
     // Passes event to SpotiFree.js
@@ -24,6 +26,10 @@ export default class AlbumListView extends Component {
                     this.setState({
                         data: data,
                     });
+                    this.handleEvent({
+                        type: 'memoize',
+                        memoized: data,
+                    });
                 });
             });
     }
@@ -37,6 +43,7 @@ export default class AlbumListView extends Component {
                  key={data.album}
                  title={data.album}
                  artist={data.artist}
+                 category="album"
                  artwork={data.artwork}
                  onEvent={this.handleEvent}/>
             );
@@ -45,17 +52,25 @@ export default class AlbumListView extends Component {
     }
 
     componentWillMount() {
-        this.fetchAlbums();
+        if (!this.state.data) {
+            this.fetchAlbums();
+        }
+    }
+
+    getViewContents() {
+
     }
 
     render() {
-        if (!this.state.data) {
-            return <h3>Loading...</h3>;
-        }
         return (
-            <div className="view album-view">
-                <h1>Albums</h1>
-                {this.renderAlbumButtons()}
+            <div className="view album-list-view">
+                <Header
+                 text="Albums"
+                 backText="Library"
+                 onEvent={this.handleEvent}/>
+                <div className="album-item-container">
+                    {this.state.data ? this.renderAlbumButtons() : ''}
+                </div>
             </div>
         );
     }
