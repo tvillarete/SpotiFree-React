@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Controls from './Controls';
+import Controls from './controls/Controls';
 import MainView from './views/MainView';
 import ArtistListView from './views/ArtistListView';
 import ArtistView from './views/ArtistView';
@@ -103,6 +103,14 @@ export default class SpotiFree extends Component {
                     });
                 }
                 break;
+            case 'time':
+                if (this.state.track.src) {
+                    this.setState(state => {
+                        state.track.currentTime = options.value;
+                        return state;
+                    });
+                }
+                break;
             default:
                 console.log("idk");
         }
@@ -127,7 +135,6 @@ export default class SpotiFree extends Component {
     }
 
     updateTime(timestamp) {
-        const audio = document.getElementById('audio');
         const convertedTimestamp = this.convertTime(Math.floor(timestamp));
 
         this.setState(state => {

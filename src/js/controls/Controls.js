@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Play, Pause, FastForward } from 'react-feather';
 import MiniControls from './MiniControls';
+import PlaybackControls from './PlaybackControls';
 
 export default class Controls extends Component {
     constructor() {
@@ -35,28 +36,6 @@ export default class Controls extends Component {
                  fullscreen={this.state.fullscreen}
                  onEvent={this.handleEvent}/>
                  {this.state.fullscreen ? <PlaybackControls {...this.props} /> : ''}
-            </div>
-        );
-    }
-}
-
-class PlaybackControls extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-
-        }
-    }
-
-    render() {
-        const meta = this.props.track.meta;
-        console.log(this.props.track.playlist);
-        return(
-            <div className="playback-controls">
-                <div className="artwork-container">
-                    <img alt={meta.name} src={meta.artwork} />
-                </div>
-                <h3>{meta.name}</h3>
             </div>
         );
     }
