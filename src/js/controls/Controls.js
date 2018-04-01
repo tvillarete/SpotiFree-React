@@ -74,7 +74,7 @@ export default class Controls extends Component {
                     track={track}
                     fullscreen={fullscreen}
                     onEvent={this.handleEvent}/>
-                    {this.state.fullscreen ? <PlaybackControls {...this.props} /> : ''}
+                {this.state.fullscreen ? <PlaybackControls {...this.props} /> : ''}
             </div>
         );
     }

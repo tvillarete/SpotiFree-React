@@ -1,0 +1,30 @@
+.rangeslider-horizontal.time-slider {
+    $gray: rgb(100,100,100);
+    height: 6px;
+    width: 90%;
+    margin: auto;
+    box-shadow: none;
+
+    .rangeslider__fill {
+        background: $gray;
+        box-shadow: none;
+    }
+
+    .rangeslider__handle {
+        width: 15px;
+        height: 15px;
+        box-shadow: none;
+        background: $gray;
+        border: none;
+        outline: none;
+
+        &::active {
+            height: 30px;
+            width: 30px;
+        }
+
+        &::after {
+            display: none;
+        }
+    }
+}

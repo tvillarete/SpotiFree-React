@@ -64,7 +64,7 @@ export default class ArtistView extends Component {
                  backText="Artists"
                  onEvent={this.handleEvent}/>
                 <div className="album-list-container">
-                    {this.state.data ? this.renderAlbumButtons() : <h3>Loading...</h3>}
+                    {this.state.data ? this.renderAlbumButtons() : ''}
                 </div>
             </div>
         );

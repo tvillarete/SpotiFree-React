@@ -1,18 +1,23 @@
 .controls {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 5em;
+    position: relative;
+    height: 4em;
     display: flex;
     flex-direction: column;
-    background: white;
-    margin: auto;
-    box-shadow: 0 0 10px darkgray;
+    width: 100%;
+    max-width: 25em;
     animation: controls-minimize 0.25s;
 
+    @media #{$mobile} {
+        max-width: none;
+    }
+
     &.fullscreen {
+        position: fixed;
+        top: 0;
+        right: 0;
         height: 100%;
+        width: 100%;
+        background: #ececec;
         animation: controls-fullscreen 0.25s;
     }
 

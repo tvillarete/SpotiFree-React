@@ -1,10 +1,17 @@
 .mini-controls {
     position: relative;
-    height: 5em;
+    height: 4em;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
+    overflow: hidden;
     transition: all 0.25s ease-in-out;
+
+    @media #{$mobile} {
+        border-top: 1px solid rgba(0,0,0,0.12);
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
 
     &.fullscreen {
         opacity: 0;
@@ -24,7 +31,6 @@
         flex: 1;
         min-width: 0;
         h3 {
-            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -32,10 +38,10 @@
 
     .artwork {
         height: 75%;
-        width: 3.75em;
+        width: 3em;
         margin: auto 0.5em;
         box-shadow: 0 0 10px darkgray;
-        border-radius: 2px;
+        border-radius: 4px;
         background-size: cover;
         transition: background 1s;
     }

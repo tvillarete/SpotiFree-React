@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Controls from './controls/Controls';
+import Navigation from './navigation/Navigation';
 import MainView from './views/MainView';
+import SearchView from './search/SearchView';
 import ArtistListView from './views/ArtistListView';
 import ArtistView from './views/ArtistView';
 import AlbumListView from './views/AlbumListView';
@@ -21,6 +23,7 @@ export default class SpotiFree extends Component {
                 data: {view: 'main'},
                 props: {}
             }],
+            navSection: 'library',
             track: {
                 playlist: [],
                 index: 0,
@@ -44,6 +47,9 @@ export default class SpotiFree extends Component {
             case 'view':
                 this.changeView(options);
                 break;
+            case 'change-nav':
+                this.setState({ navSection: options.value });
+                break;
             case 'memoize':
                 this.memoize(options);
                 break;
@@ -63,7 +69,7 @@ export default class SpotiFree extends Component {
                 this.skip();
                 break;
             case 'time':
-                //this.changeTime(options);
+                this.audioElement.currentTime = options.value;
                 break;
             default:
                 console.log("idk");
@@ -118,6 +124,19 @@ export default class SpotiFree extends Component {
     playAudio = () => {
         this.audioElement.load();
         this.audioElement.play();
+        setTimeout(() => {
+            this.setState(state => {
+                state.track.duration = Math.floor(this.audioElement.duration);
+                return state;
+            });
+            const id = setInterval(() => {
+                this.setState(state => {
+                    state.track.currentTime = this.audioElement.currentTime;
+                    //console.log(state.track);
+                    return state;
+                });
+            }, 1000);
+        }, 100);
     }
 
     onAudioEnded = () => {
@@ -178,17 +197,22 @@ export default class SpotiFree extends Component {
     render() {
         return (
             <div className="spotifree">
-                {this.getView()}
-                <div className="controls">
-                    <Controls
-                        track={this.state.track}
-                        isPlaying={this.state.isPlaying}
-                        onEvent={this.handleEvent}
-                    />
-                    <audio
-                        ref={(audio) => {this.audioElement = audio}}
-                        src={this.state.track.meta.url}
-                        onEnded={this.onAudioEnded}></audio>
+                {this.state.navSection === 'library' ? this.getView() : <SearchView />}
+                <div className="bottom-bar">
+                    <Navigation
+                        current={this.state.navSection}
+                        onEvent={this.handleEvent}/>
+                    <div className="controls">
+                        <Controls
+                            track={this.state.track}
+                            isPlaying={this.state.isPlaying}
+                            onEvent={this.handleEvent}
+                        />
+                        <audio
+                            ref={(audio) => {this.audioElement = audio}}
+                            src={this.state.track.meta.url}
+                            onEnded={this.onAudioEnded}></audio>
+                    </div>
                 </div>
             </div>
         );
