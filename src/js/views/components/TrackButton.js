@@ -10,24 +10,18 @@ export default class TrackButton extends Component {
     }
 
     handleMainEvent() {
+        const meta = this.props.meta;
         this.props.onEvent({
             type: 'play-new',
-            value: {
-                name: this.props.name,
-                artist: this.props.artist,
-                album: this.props.album,
-                track: this.props.track,
-                url: this.props.url,
-                artwork: this.props.artwork,
-            }
+            value: meta,
         });
     }
 
     render() {
         return (
-            <div className={`track-button ${this.props.subtext ? 'with-subtext' : ''}`}
+            <div className={`track-button ${this.props.currentTrack ? 'current-track' : ''} ${this.props.isPlaying ? 'playing' : ''} ${this.props.subtext ? 'with-subtext' : ''}`}
              onClick={this.handleMainEvent}>
-                <h3 className="text">{this.props.name}</h3>
+                <h3 className="text">{this.props.meta.name}</h3>
             </div>
         );
     }

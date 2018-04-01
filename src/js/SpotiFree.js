@@ -28,7 +28,6 @@ export default class SpotiFree extends Component {
                 convertedDuration: '0:00',
                 currentTime: 0,
                 convertedCurrentTime: '0:00',
-                src: null,
                 meta: {
                     name: 'SpotiFree',
                     artist: 'Tanner Villarete',
@@ -64,7 +63,7 @@ export default class SpotiFree extends Component {
                 this.skip();
                 break;
             case 'time':
-                this.changeTime(options);
+                //this.changeTime(options);
                 break;
             default:
                 console.log("idk");
@@ -108,107 +107,57 @@ export default class SpotiFree extends Component {
 
     setupAudio = options => {
         this.setState(state => {
-            state.track.meta = options.value;
-            state.track.src = options.value.url;
             state.isPlaying = true;
-            state.track.playlist = options.playlist;
+            state.track.meta = options.value;
             state.track.index = options.index;
-            this.updateControls();
+            state.track.playlist = options.playlist;
             return state;
-        });
+        }, this.playAudio);
     }
 
-    updateControls = () => {
-        const audio = document.getElementById('audio');
-        let _this = this;
+    playAudio = () => {
+        this.audioElement.load();
+        this.audioElement.play();
+    }
 
-        if (this.state.isPlaying) {
-            setTimeout(()=> {
-                this.setState(state => {
-                    state.track.duration = audio.duration;
-                    state.track.convertedDuration = this.convertTime(Math.floor(audio.duration));
-                });
-            }, 100);
-            this.intervalId = setInterval(function() {
-                _this.updateTime(audio.currentTime);
-            }, 100);
-        }
+    onAudioEnded = () => {
+        this.skip();
     }
 
     resume = () => {
-        if (this.state.track.src) {
-            this.setState(state => {
-                state.isPlaying = true;
-                return state;
-            });
-            this.updateControls();
-        }
-    }
-
-    pause = () => {
-        if (this.state.track.src) {
-            this.setState(state => {
-                state.isPlaying = false;
-                return state;
-            });
-        }
-    }
-
-    skip = () => {
-        if (this.state.track.playlist.length) {
-            this.setState(state => {
-                state.track.index++;
-                let meta = state.track.playlist[state.track.index];
-                state.track.meta = meta;
-                state.track.src = meta.url;
-                this.updateControls();
-                return state;
-            });
-        }
-    }
-
-    changeTime = (options) => {
-        if (this.state.track.src) {
-            this.setState(state => {
-                state.track.currentTime = options.value;
-                return state;
-            });
-        }
-    }
-
-    updateTime = (timestamp) => {
-        const convertedTimestamp = this.convertTime(Math.floor(timestamp));
-
-        this.setState(state => {
-            if (state.track.currentTime >= state.track.duration) {
-                this.handleEvent({type: 'skip'})
-                state.isPlaying = state.track.index <= state.track.playlist.length-1;
-            }
-            state.track.currentTime = timestamp;
-            state.track.convertedCurrentTime = convertedTimestamp;
-            return state;
+        this.setState({ isPlaying: true }, () => {
+            this.audioElement.play();
         });
     }
 
-    convertTime = (timestamp) => {
-        let minutes = Math.floor(timestamp / 60);
-        let seconds = timestamp - (minutes * 60);
-        if (seconds < 10) {
-            seconds = '0' + seconds;
-        }
-        return (minutes + ':' + seconds);
+    pause = () => {
+        this.setState({ isPlaying: false }, () => {
+            this.audioElement.pause();
+        });
+    }
+
+    skip = () => {
+        this.setState(state => {
+            state.track.index++;
+            if (state.track.index > state.track.playlist.length-1) {
+                return null
+            }
+            state.isPlaying = true;
+            state.track.meta = state.track.playlist[state.track.index];
+            return state;
+        }, this.playAudio);
     }
 
     getView = () => {
-        let stack = this.state.viewStack;
-        var stackItem = stack[stack.length-1];
-        //const isPrevView = stackItem.props.isPrevView;
+        const stack = this.state.viewStack;
+        let stackItem = stack[stack.length-1];
         let view = this.state.views[stackItem.data.view];
 
         if (stackItem.category) {
             view = this.state.views[stackItem.category];
         }
         stackItem.props.data = stackItem.data;
+        stackItem.props.track = this.state.track;
         stackItem.props.artist = stackItem.data.artist;
         stackItem.props.album = stackItem.data.view;
         stackItem.props.artwork = stackItem.data.artwork;
@@ -221,19 +170,8 @@ export default class SpotiFree extends Component {
         return React.cloneElement(view, stackItem.props);
     }
 
-    componentDidUpdate() {
-        const audio = document.getElementById('audio');
-        if (this.state.isPlaying) {
-            if (audio.paused)
-                audio.play();
-        } else if (!this.state.isPlaying) {
-            if (!audio.paused) {
-                audio.pause();
-            }
-        }
-    }
-
     componentDidMount() {
+        // Used to remove grey highlighting on touch events
         document.addEventListener("touchstart", function(){}, true);
     }
 
@@ -247,7 +185,10 @@ export default class SpotiFree extends Component {
                         isPlaying={this.state.isPlaying}
                         onEvent={this.handleEvent}
                     />
-                    <audio id="audio" src={this.state.track.src}></audio>
+                    <audio
+                        ref={(audio) => {this.audioElement = audio}}
+                        src={this.state.track.meta.url}
+                        onEnded={this.onAudioEnded}></audio>
                 </div>
             </div>
         );

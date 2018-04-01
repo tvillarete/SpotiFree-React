@@ -15,6 +15,21 @@ export default class MiniControls extends Component {
         this.props.onEvent(options);
     }
 
+    play = (e) => {
+        if (e) e.stopPropagation();
+        this.handleEvent({type: 'play'});
+    }
+
+    pause = (e) => {
+        if (e) e.stopPropagation();
+        this.handleEvent({type: 'pause'});
+    }
+
+    skip = (e) => {
+        if (e) e.stopPropagation();
+        this.handleEvent({type: 'skip'});
+    }
+
     render() {
         return(
             <div className={`mini-controls ${this.props.fullscreen ? 'fullscreen' : ''}`}
@@ -27,21 +42,12 @@ export default class MiniControls extends Component {
                     </div>
                 </div>
                 <div className="button-container">
-                    <Play onClick={(e)=>{
-                        e.stopPropagation();
-                        this.handleEvent({type: 'play'})}
-                    }
-                     className={this.props.isPlaying ? 'hidden' : ''} />
-                    <Pause onClick={(e)=>{
-                        e.stopPropagation();
-                        this.handleEvent({type: 'pause'})}
-                    }
+                    <Play onClick={this.play}
+                        className={this.props.isPlaying ? 'hidden' : ''} />
+                    <Pause onClick={this.pause}
                      className={this.props.isPlaying ? '' : 'hidden'} />
                     <FastForward
-                     onClick={(e)=>{
-                         e.stopPropagation()
-                         this.handleEvent({type: 'skip'})}
-                     } />
+                     onClick={this.skip} />
 
                 </div>
             </div>

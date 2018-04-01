@@ -60,14 +60,11 @@ export default class AlbumView extends Component {
         this.state.data.forEach(data => {
             trackButtons.push(
                 <TrackButton
-                 key={data.track}
-                 name={data.name}
-                 artist={data.artist}
-                 album={data.album}
-                 track={data.track}
-                 url={data.url}
-                 artwork={data.artwork}
-                 onEvent={this.handleEvent}/>
+                    key={data.track}
+                    meta={data}
+                    isPlaying={false}
+                    currentTrack={this.props.track.meta.name === data.name}
+                    onEvent={this.handleEvent}/>
             );
         });
         return trackButtons;
@@ -119,7 +116,6 @@ class AlbumHeader extends Component {
         this.state = {
             isMobile: props.isMobile
         }
-        console.log(props);
     }
 
     render() {
