@@ -21,7 +21,7 @@ export default class AlbumView extends Component {
             for (let track in data) {
                 const trackData = data[track];
                 if (trackData.name === options.value.name) {
-                    index = parseInt(track);
+                    index = parseInt(track, 10);
                 }
             }
             Object.assign(options, {
@@ -30,6 +30,13 @@ export default class AlbumView extends Component {
             });
         }
         this.props.onEvent(options);
+    }
+
+    handleResize = () => {
+        this.setState(state => {
+            state.isMobile = window.innerWidth < 750;
+            return state;
+        });
     }
 
     fetchTracks() {
@@ -66,6 +73,15 @@ export default class AlbumView extends Component {
         return trackButtons;
     }
 
+    componentDidMount() {
+        this.handleResize();
+        window.addEventListener('resize', this.handleResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize);
+    }
+
     componentWillMount() {
         if (!this.state.data) {
             this.fetchTracks();
@@ -74,35 +90,57 @@ export default class AlbumView extends Component {
 
     render() {
         return (
-            <div className="view album-view">
+            <div className={`view album-view ${this.props.classNames}`}>
                 <Header
-                 text={this.props.album}
                  backText="Albums"
                  onEvent={this.handleEvent}/>
-                <AlbumHeader
-                 title={this.props.album}
-                 artist={this.props.artist}
-                 artwork={this.props.artwork}/>
-                {this.state.data ? this.renderTrackButtons() : <h3>Loading</h3>}
+                <div className="album-container">
+                    <AlbumHeader
+                        {...this.props}
+                     title={this.props.album}
+                     artist={this.props.artist}
+                     artwork={this.props.artwork}
+                     isMobile={this.state.isMobile}/>
+                    <div className="track-container">
+                        {this.state.isMobile ? '' :
+                            <AlbumMetadata {...this.props}
+                                isMobile />}
+                        {this.state.data ? this.renderTrackButtons() : ''}
+                    </div>
+                </div>
             </div>
         );
     }
 }
 
 class AlbumHeader extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-
+            isMobile: props.isMobile
         }
+        console.log(props);
     }
 
     render() {
         return(
             <div className="album-header">
-                <img alt={this.props.title} src={this.props.artwork} />
-                <h3>{this.props.title}</h3>
+                <img className="album-artwork" alt={this.props.title} src={this.props.artwork} />
+                {this.props.isMobile ?  <AlbumMetadata {...this.props} /> : ''}
             </div>
         );
     }
 }
+
+class AlbumMetadata extends Component {
+    render() {
+        return (
+            <div className="album-metadata-container">
+                <h3 className="album-title">{this.props.album}</h3>
+                <h3 className="album-artist">{this.props.artist}</h3>
+            </div>
+        );
+    }
+}
+
+

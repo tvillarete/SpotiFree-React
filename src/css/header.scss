@@ -8,6 +8,7 @@
     background: white;
 
     .left-container, .mid-container, .right-container {
+        display: flex;
         flex: 1;
     }
 
@@ -18,15 +19,24 @@
 
     .header-title {
         margin: auto 0;
+        transition: all 0.25s ease-in-out;
+
+        &.invisible {
+            opacity: 0;
+            user-select: none;
+        }
     }
 
     .back-button {
         display: flex;
         height: 100%;
+        font-size: 1em;
         cursor: pointer;
+        color: #ff2d55;
 
         h3, .svg {
             margin: auto 0;
+            font-weight: normal;
         }
 
         svg {

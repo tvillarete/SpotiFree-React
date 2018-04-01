@@ -1,4 +1,62 @@
 .view {
-    padding-top: 3em;
-    padding-bottom: 5em;
+    $duration: 0.15s;
+    padding: 3em 0 5em 1em;
+    max-width: 70em;
+    margin: auto;
+    animation: slideNewView $duration ease-in-out;
+
+    &.slide-in-left {
+        animation: slideInLeft $duration ease-in-out;
+    }
+
+    &.entering-new-view {
+        animation: slideViewLeft $duration ease-in-out;
+    }
+
+    &.entering-old-view {
+        animation: slideViewRight $duration ease-in-out;
+    }
+
+    @media screen and (max-width: 750px) {
+        padding-left: 0;
+
+        .view-header {
+            padding-left: 0.5em;
+        }
+    }
 }
+
+.view-header {
+    font-size: 2em;
+    margin: 0 0 0.25em 0;
+}
+
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-20%);
+    }
+}
+
+@keyframes slideNewView {
+   0% {
+      opacity: 0;
+      transform: translateX(20%);
+   }
+}
+
+@keyframes slideViewLeft {
+    100% {
+        opacity: 0;
+        transform: translateX(-20%);
+    }
+}
+
+@keyframes slideViewRight {
+    100% {
+        opacity: 0;
+        transform: translateX(20%);
+    }
+}
+
+

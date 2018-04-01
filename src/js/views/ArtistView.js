@@ -58,7 +58,7 @@ export default class ArtistView extends Component {
 
     render() {
         return (
-            <div className="view artist-view">
+            <div className={`view artist-view ${this.props.classNames}`}>
                 <Header
                  text={this.props.artist}
                  backText="Artists"

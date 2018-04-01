@@ -41,7 +41,7 @@ export default class MainView extends Component {
 
     render() {
         return (
-            <div className="spotifree">
+            <div className={`view main-view ${this.props.classNames}`}>
                 <h1 className="view-header">Library</h1>
                 {this.renderNavButtons()}
             </div>

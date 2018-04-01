@@ -1,0 +1,74 @@
+$mobile: "screen and (max-width: 750px)";
+
+.album-view {
+    display: flex;
+
+    .album-container {
+        flex: 1;
+        display: flex;
+    }
+
+    .track-container {
+        flex: 1;
+    }
+
+    @media #{$mobile} {
+        .album-container {
+            flex-direction: column;
+        }
+
+        .track-container {
+            padding-left: 1em;
+        }
+    }
+}
+
+.album-header {
+    padding: 0 2em 0 0.5em;
+
+    .album-artwork {
+        border-radius: 6px;
+    }
+
+    @media #{$mobile} {
+        display: flex;
+        height: 10em;
+        padding-left: 1em;
+
+        .album-artwork {
+            max-height: 90%;
+            margin: auto 0;
+        }
+    }
+}
+
+.album-metadata-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+
+    .album-title {
+        font-size: 2em;
+        margin: 0 0 0.25em 0;
+    }
+
+    .album-artist {
+        margin: 0;
+        font-size: 1.5em;
+        font-weight: normal;
+        color: #ff2d55;
+    }
+
+    @media #{$mobile} {
+        padding: 0.5em 0.5em 0 1em;
+        margin-bottom: 0;
+
+        .album-title {
+            font-size: 1.2em;
+        }
+
+        .album-artist {
+            font-size: 1em;
+        }
+    }
+}

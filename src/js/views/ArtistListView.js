@@ -7,18 +7,22 @@ export default class ArtistListView extends Component {
         super(props);
         this.state = {
             data: props.data.memoized,
+            isScrolled: false,
         }
-        this.handleEvent = this.handleEvent.bind(this);
-        this.renderArtistButtons = this.renderArtistButtons.bind(this);
-        this.fetchArtists = this.fetchArtists.bind(this);
     }
 
     // Passes event to SpotiFree.js
-    handleEvent(options) {
+    handleEvent = (options) => {
         this.props.onEvent(options);
     }
 
-    fetchArtists() {
+    handleScroll = (e) => {
+        const scrollPos = window.pageYOffset;
+        const threshhold = 48;
+        this.setState({ isScrolled: scrollPos >= threshhold });
+    }
+
+    fetchArtists = () => {
         fetch('http://tannerv.ddns.net:3000/api/artists')
             .then(response => {
                 response.json().then((data) => {
@@ -33,7 +37,7 @@ export default class ArtistListView extends Component {
             });
     }
 
-    renderArtistButtons() {
+    renderArtistButtons = () => {
         let artistButtons = [];
 
         this.state.data.forEach(data => {
@@ -52,6 +56,15 @@ export default class ArtistListView extends Component {
         return artistButtons;
     }
 
+    componentDidMount() {
+        window.addEventListener('scroll', this.handleScroll);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+    }
+
+
     componentWillMount() {
         if (!this.state.data) {
             this.fetchArtists();
@@ -60,13 +73,15 @@ export default class ArtistListView extends Component {
 
     render() {
         return (
-            <div className="view artist-list-view">
+            <div className={`view artist-list-view ${this.props.classNames}`}>
                 <Header
-                 text="Artists"
-                 backText="Library"
-                 onEvent={this.handleEvent}/>
+                    text="Artists"
+                    showTitle={this.state.isScrolled}
+                    backText="Library"
+                    onEvent={this.handleEvent}/>
+                <h1 className="view-header">Artists</h1>
                 <div className="artist-button-container">
-                    {this.state.data ? this.renderArtistButtons() : <h3>Loading...</h3>}
+                    {this.state.data ? this.renderArtistButtons() : '' }
                 </div>
             </div>
         );

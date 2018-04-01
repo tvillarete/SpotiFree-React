@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FadeIn from "react-lazyload-fadein";
+//import FadeIn from "react-lazyload-fadein";
 
 export default class AlbumButton extends Component {
     constructor(props) {

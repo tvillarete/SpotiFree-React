@@ -5,19 +5,27 @@
     animation: fadein 0.25s;
 
     img {
-        height: 200px;
+        width: 100%;
+        height: auto;
         max-height: 200px;
         border: 1px solid lightgray;
         box-sizing: border-box;
+        border-radius: 6px;
     }
 
     .album-button-text, .album-button-subtext {
+        font-weight: normal;
         font-size: 1em;
-        margin: 0.3em 0;
+        margin: 0.1em 0;
     }
 
     .album-button-subtext {
         color: rgb(150,150,150);
+    }
+
+    @media screen and (max-width: 750px) {
+        max-width: 40%;
+        margin: 0.5em 0.5em 0.5em;
     }
 
     @keyframes fadeIn {

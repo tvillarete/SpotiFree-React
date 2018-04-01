@@ -19,6 +19,12 @@ export default class AlbumListView extends Component {
         this.props.onEvent(options);
     }
 
+    handleScroll = (e) => {
+        const scrollPos = window.pageYOffset;
+        const threshhold = 48;
+        this.setState({ isScrolled: scrollPos >= threshhold });
+    }
+
     fetchAlbums() {
         fetch('http://tannerv.ddns.net:3000/api/albums')
             .then(response => {
@@ -51,6 +57,14 @@ export default class AlbumListView extends Component {
         return albumButtons;
     }
 
+    componentDidMount() {
+        window.addEventListener('scroll', this.handleScroll);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+    }
+
     componentWillMount() {
         if (!this.state.data) {
             this.fetchAlbums();
@@ -63,11 +77,13 @@ export default class AlbumListView extends Component {
 
     render() {
         return (
-            <div className="view album-list-view">
+            <div className={`view album-list-view ${this.props.classNames}`}>
                 <Header
                  text="Albums"
+                 showTitle={this.state.isScrolled}
                  backText="Library"
                  onEvent={this.handleEvent}/>
+                <h2 className="view-header">Albums</h2>
                 <div className="album-item-container">
                     {this.state.data ? this.renderAlbumButtons() : ''}
                 </div>

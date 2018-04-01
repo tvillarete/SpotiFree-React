@@ -27,7 +27,9 @@ export default class Header extends Component {
                     </div>
                 </div>
                 <div className="mid-container">
-                    <h3 className="header-title">{this.props.text}</h3>
+                    <h3 className={`header-title ${this.props.showTitle ? '' : 'invisible'}`}>
+                        {this.props.text}
+                    </h3>
                 </div>
                 <div className="right-container"></div>
             </div>

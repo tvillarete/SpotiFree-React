@@ -1,0 +1,22 @@
+.track-button {
+    display: flex;
+    align-items: center;
+    min-height: 3em;
+    flex: auto;
+    border-top: 1px solid rgba(0,0,0,0.12);
+    animation: fadeIn 0.2s;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    .text {
+        margin: 0;
+        font-size: 1.3em;
+        font-weight: normal;
+    }
+}

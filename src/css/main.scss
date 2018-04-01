@@ -1,5 +1,6 @@
 @import 'components/nav_button';
 @import 'components/album_button';
+@import 'components/track-button';
 
 @import 'global';
 @import 'view';
@@ -9,6 +10,8 @@
 @import 'playback-controls';
 
 // Views
+@import 'views/main-view';
 @import 'views/artist-view';
+@import 'views/album-view';
 @import 'views/album-list-view';
 @import 'views/artist-list-view';

@@ -2,15 +2,19 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 3em;
   padding-left: 0.5em;
+  min-height: 3em;
   color: #ff2d55;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   cursor: pointer; }
+  .nav-button:hover {
+    background: rgba(0, 0, 0, 0.05); }
   .nav-button.black {
     color: black; }
   .nav-button .text {
-    margin: 0; }
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: normal; }
   .nav-button .subtext {
     display: none; }
 
@@ -20,28 +24,90 @@
   cursor: pointer;
   animation: fadein 0.25s; }
   .album-button img {
-    height: 200px;
+    width: 100%;
+    height: auto;
     max-height: 200px;
     border: 1px solid lightgray;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    border-radius: 6px; }
   .album-button .album-button-text, .album-button .album-button-subtext {
+    font-weight: normal;
     font-size: 1em;
-    margin: 0.3em 0; }
+    margin: 0.1em 0; }
   .album-button .album-button-subtext {
     color: #969696; }
+  @media screen and (max-width: 750px) {
+    .album-button {
+      max-width: 40%;
+      margin: 0.5em 0.5em 0.5em; } }
 @keyframes fadeIn {
   0% {
     opacity: 0; } }
+.track-button {
+  display: flex;
+  align-items: center;
+  min-height: 3em;
+  flex: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  animation: fadeIn 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
+  .track-button:hover {
+    background: rgba(0, 0, 0, 0.05); }
+  .track-button .text {
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: normal; }
+
 html {
-  font-family: sans-serif; }
+  font-family: sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+
+body {
+  margin: 0; }
 
 .hidden {
   display: none; }
 
 .view {
-  padding-top: 3em;
-  padding-bottom: 5em; }
+  padding: 3em 0 5em 1em;
+  max-width: 70em;
+  margin: auto;
+  animation: slideNewView 0.15s ease-in-out; }
+  .view.slide-in-left {
+    animation: slideInLeft 0.15s ease-in-out; }
+  .view.entering-new-view {
+    animation: slideViewLeft 0.15s ease-in-out; }
+  .view.entering-old-view {
+    animation: slideViewRight 0.15s ease-in-out; }
+  @media screen and (max-width: 750px) {
+    .view {
+      padding-left: 0; }
+      .view .view-header {
+        padding-left: 0.5em; } }
 
+.view-header {
+  font-size: 2em;
+  margin: 0 0 0.25em 0; }
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20%); } }
+@keyframes slideNewView {
+  0% {
+    opacity: 0;
+    transform: translateX(20%); } }
+@keyframes slideViewLeft {
+  100% {
+    opacity: 0;
+    transform: translateX(-20%); } }
+@keyframes slideViewRight {
+  100% {
+    opacity: 0;
+    transform: translateX(20%); } }
 .header {
   position: fixed;
   top: 0;
@@ -51,18 +117,26 @@ html {
   display: flex;
   background: white; }
   .header .left-container, .header .mid-container, .header .right-container {
+    display: flex;
     flex: 1; }
   .header .mid-container {
     display: flex;
     justify-content: center; }
   .header .header-title {
-    margin: auto 0; }
+    margin: auto 0;
+    transition: all 0.25s ease-in-out; }
+    .header .header-title.invisible {
+      opacity: 0;
+      user-select: none; }
   .header .back-button {
     display: flex;
     height: 100%;
-    cursor: pointer; }
+    font-size: 1em;
+    cursor: pointer;
+    color: #ff2d55; }
     .header .back-button h3, .header .back-button .svg {
-      margin: auto 0; }
+      margin: auto 0;
+      font-weight: normal; }
     .header .back-button svg {
       margin: auto 0; }
 
@@ -138,18 +212,74 @@ html {
       height: 100%;
       width: auto; }
 
+.main-view {
+  padding-top: 1em; }
+
 .artist-view .album-list-container {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  max-width: 70em;
+  margin: auto; }
+
+.album-view {
+  display: flex; }
+  .album-view .album-container {
+    flex: 1;
+    display: flex; }
+  .album-view .track-container {
+    flex: 1; }
+  @media screen and (max-width: 750px) {
+    .album-view .album-container {
+      flex-direction: column; }
+    .album-view .track-container {
+      padding-left: 1em; } }
+
+.album-header {
+  padding: 0 2em 0 0.5em; }
+  .album-header .album-artwork {
+    border-radius: 6px; }
+  @media screen and (max-width: 750px) {
+    .album-header {
+      display: flex;
+      height: 10em;
+      padding-left: 1em; }
+      .album-header .album-artwork {
+        max-height: 90%;
+        margin: auto 0; } }
+
+.album-metadata-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em; }
+  .album-metadata-container .album-title {
+    font-size: 2em;
+    margin: 0 0 0.25em 0; }
+  .album-metadata-container .album-artist {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: normal;
+    color: #ff2d55; }
+  @media screen and (max-width: 750px) {
+    .album-metadata-container {
+      padding: 0.5em 0.5em 0 1em;
+      margin-bottom: 0; }
+      .album-metadata-container .album-title {
+        font-size: 1.2em; }
+      .album-metadata-container .album-artist {
+        font-size: 1em; } }
 
 .album-list-view .album-item-container {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  max-width: 70em;
+  margin: auto; }
 
-.artist-list-view .artist-button-container .nav-button {
-  animation: fadein 0.5s; }
+.artist-list-view .artist-button-container {
+  padding-left: 1em; }
+  .artist-list-view .artist-button-container .nav-button {
+    animation: fadein 0.5s; }
 @keyframes fadein {
   0% {
     opacity: 0; } }
