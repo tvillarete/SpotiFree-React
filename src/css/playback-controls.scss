@@ -1,16 +1,77 @@
 .playback-controls {
     display: flex;
     flex-direction: column;
+    height: 100%;
+
+    &.playing {
+        img {
+            transform: scale(1.1);
+            box-shadow: 0 15px 50px rgb(100,100,100);
+        }
+    }
 
     .artwork-container {
         display: flex;
         justify-content: center;
         flex: 1;
+        height: 50vh;
+        max-height: 20em;
+        padding-bottom: 2em;
 
         img {
-            height: 100%;
+            height: 90%;
             width: auto;
+            margin: auto;
+            max-height: 20em;
+            border-radius: 6px;
+            transition: all 0.35s ease-in-out;
+        }
+    }
 
+    .track-time-slider-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 3em;
+    }
+
+    .time-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 90%;
+        margin: 0 auto;
+        color: rgb(150,150,150);
+    }
+
+    .track-metadata-container {
+        display: flex;
+        flex-direction: column;
+
+        h3 {
+            text-align: center;
+            margin: 0.2em;
+        }
+
+        .track-album {
+            color: $red;
+            font-weight: normal;
+        }
+    }
+
+    .playback-button-container {
+        display: flex;
+        flex: 1;
+        justify-content: space-around;
+        align-items: center;
+        align-self: center;
+        width: 100%;
+        max-width: 19em;
+
+        svg {
+            width: 3em;
+            height: auto;
+            cursor: pointer;
         }
     }
 }

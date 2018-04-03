@@ -7,6 +7,7 @@ import ArtistListView from './views/ArtistListView';
 import ArtistView from './views/ArtistView';
 import AlbumListView from './views/AlbumListView';
 import AlbumView from './views/AlbumView';
+import PlaylistListView from './views/PlaylistListView';
 
 export default class SpotiFree extends Component {
     constructor() {
@@ -18,6 +19,7 @@ export default class SpotiFree extends Component {
                 'artist': <ArtistView onEvent={this.handleEvent}/>,
                 'albums': <AlbumListView onEvent={this.handleEvent}/>,
                 'album': <AlbumView onEvent={this.handleEvent}/>,
+                'playlists': <PlaylistListView onEvent={this.handleEvent}/>,
             },
             viewStack: [{
                 data: {view: 'main'},
@@ -68,8 +70,14 @@ export default class SpotiFree extends Component {
             case 'skip':
                 this.skip();
                 break;
+            case 'previous':
+                this.previous();
+                break;
             case 'time':
                 this.audioElement.currentTime = options.value;
+                break;
+            case 'fullscreen-controls':
+                this.setState({ fullscreenControls: options.value });
                 break;
             default:
                 console.log("idk");
@@ -129,7 +137,7 @@ export default class SpotiFree extends Component {
                 state.track.duration = Math.floor(this.audioElement.duration);
                 return state;
             });
-            const id = setInterval(() => {
+            setInterval(() => {
                 this.setState(state => {
                     state.track.currentTime = this.audioElement.currentTime;
                     //console.log(state.track);
@@ -144,21 +152,38 @@ export default class SpotiFree extends Component {
     }
 
     resume = () => {
-        this.setState({ isPlaying: true }, () => {
-            this.audioElement.play();
-        });
+        console.log(this.audioElement.src);
+        if (this.audioElement.src) {
+            this.setState({ isPlaying: true }, () => {
+                this.audioElement.play();
+            });
+        }
     }
 
     pause = () => {
-        this.setState({ isPlaying: false }, () => {
-            this.audioElement.pause();
-        });
+        if (this.audioElement.src) {
+            this.setState({ isPlaying: false }, () => {
+                this.audioElement.pause();
+            });
+        }
     }
 
     skip = () => {
         this.setState(state => {
             state.track.index++;
             if (state.track.index > state.track.playlist.length-1) {
+                return null
+            }
+            state.isPlaying = true;
+            state.track.meta = state.track.playlist[state.track.index];
+            return state;
+        }, this.playAudio);
+    }
+
+    previous = () => {
+        this.setState(state => {
+            state.track.index--;
+            if (state.track.index < 0) {
                 return null
             }
             state.isPlaying = true;
@@ -200,9 +225,11 @@ export default class SpotiFree extends Component {
                 {this.state.navSection === 'library' ? this.getView() : <SearchView />}
                 <div className="bottom-bar">
                     <Navigation
+                        grayed={this.state.fullscreenControls}
                         current={this.state.navSection}
                         onEvent={this.handleEvent}/>
                     <div className="controls">
+                        <div className={`controls-cover ${this.state.fullscreenControls ? '' : 'hidden'}`}></div>
                         <Controls
                             track={this.state.track}
                             isPlaying={this.state.isPlaying}

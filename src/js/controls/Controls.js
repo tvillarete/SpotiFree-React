@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Play, Pause, FastForward } from 'react-feather';
 import MiniControls from './MiniControls';
 import PlaybackControls from './PlaybackControls';
 
@@ -18,6 +17,10 @@ export default class Controls extends Component {
     handleEvent(options) {
         if (options.type === 'fullscreen') {
             this.toggleFullscreen();
+            this.props.onEvent({
+                type: 'fullscreen-controls',
+                value: !this.state.fullscreen
+            });
         } else {
             this.props.onEvent(options);
         }

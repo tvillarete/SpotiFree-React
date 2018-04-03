@@ -5,7 +5,7 @@
     flex-direction: column;
     width: 100%;
     max-width: 25em;
-    animation: controls-minimize 0.25s;
+    animation: controls-minimize 0.3s;
 
     @media #{$mobile} {
         max-width: none;
@@ -17,8 +17,18 @@
         right: 0;
         height: 100%;
         width: 100%;
-        background: #ececec;
-        animation: controls-fullscreen 0.25s;
+        background: white;
+        animation: controls-fullscreen 0.3s ease-in-out;
+    }
+
+    .controls-cover {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,0.5);
+        animation: fadeIn 0.3s;
     }
 
     @keyframes controls-fullscreen {
