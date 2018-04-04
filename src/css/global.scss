@@ -12,3 +12,9 @@ body {
 .hidden {
     display: none;
 }
+
+@keyframes fadeOut {
+    100% {
+        opacity: 0;
+    }
+}

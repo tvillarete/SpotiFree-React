@@ -15,6 +15,13 @@ export default class MiniControls extends Component {
         this.props.onEvent(options);
     }
 
+    toggleFullscreen = () => {
+        this.props.onEvent({
+            type: 'controls',
+            value: !this.props.data.isOpen
+        });
+    }
+
     play = (e) => {
         if (e) e.stopPropagation();
         this.handleEvent({type: 'play'});
@@ -31,9 +38,11 @@ export default class MiniControls extends Component {
     }
 
     render() {
+        const classNames = `${this.props.data.isOpen ? 'fullscreen' : ''} ${this.props.data.isClosing ? 'closing' : ''}`;
+
         return(
-            <div className={`mini-controls ${this.props.fullscreen ? 'fullscreen' : ''}`}
-             onClick={() => {this.handleEvent({type: 'fullscreen'})}}>
+            <div className={`mini-controls ${classNames}`}
+             onClick={this.toggleFullscreen}>
                 <div className="info-container">
                     <div className="artwork"
                         style={{backgroundImage: `url("${this.props.track.meta.artwork}")`}}></div>

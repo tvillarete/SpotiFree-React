@@ -5,7 +5,6 @@
     flex-direction: column;
     width: 100%;
     max-width: 25em;
-    animation: controls-minimize 0.3s;
 
     @media #{$mobile} {
         max-width: none;
@@ -18,7 +17,12 @@
         height: 100%;
         width: 100%;
         background: white;
+        backdrop-filter: none;
         animation: controls-fullscreen 0.3s ease-in-out;
+    }
+
+    &.closing {
+        animation: controls-minimize 0.3s;
     }
 
     .controls-cover {
@@ -28,7 +32,12 @@
         left: 0;
         right: 0;
         background: rgba(0,0,0,0.5);
+        cursor: pointer;
         animation: fadeIn 0.3s;
+
+        &.closing {
+            animation: fadeOut 0.3s;
+        }
     }
 
     @keyframes controls-fullscreen {
@@ -38,9 +47,11 @@
     }
 
     @keyframes controls-minimize {
-        0% {
-            height: 100%;
-            max-height: 50em;
+        90% {
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(100%);
         }
     }
 }

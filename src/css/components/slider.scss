@@ -1,4 +1,4 @@
-.rangeslider-horizontal.time-slider {
+.rangeslider-horizontal.time-slider, .volume-slider {
     $gray: rgb(100,100,100);
     height: 6px;
     width: 90%;
@@ -27,4 +27,12 @@
             display: none;
         }
     }
+}
+
+.volume-slider-container .volume-slider .rangeslider__handle {
+    width: 30px;
+    height: 30px;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.12);
+    box-shadow: 0 4px 10px rgb(150,150,150);
 }

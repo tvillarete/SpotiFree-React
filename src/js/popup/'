@@ -1,0 +1,40 @@
+import React, { Component } from 'react';
+
+export default class Popup extends Component {
+    handleClick = options => {
+        this.props.onEvent(options);
+    }
+
+    getTopContainerButtons = () => {
+        const popupButtons = [];
+        const data = this.props.data.topContainer;
+
+        for (let name in data) {
+            const action = data[name];
+            popupButtons.push(
+                <h3
+                    key={name}
+                    className="popup-button">{name}
+                    onClick={() => {this.handleClick(action)}}
+                </h3>
+            );
+        }
+        return popupButtons;
+    }
+
+    render() {
+        return (
+            <div className="popup-container">
+                <div className="popup-cover"></div>
+                <div className="popup">
+                    <div className="upper-container">
+                        {this.getTopContainerButtons()}
+                    </div>
+                    <div className="lower-container">
+                        <h3 className="popup-button">Cancel</h3>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}

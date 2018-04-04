@@ -6,7 +6,7 @@
     &.playing {
         img {
             transform: scale(1.1);
-            box-shadow: 0 15px 50px rgb(100,100,100);
+            box-shadow: 0 15px 50px #a0a0a0;
         }
     }
 
@@ -38,8 +38,7 @@
     .time-container {
         display: flex;
         justify-content: space-between;
-        width: 100%;
-        max-width: 90%;
+        width: 90%;
         margin: 0 auto;
         color: rgb(150,150,150);
     }
@@ -70,6 +69,28 @@
 
         svg {
             width: 3em;
+            height: auto;
+            cursor: pointer;
+        }
+    }
+
+    .volume-slider-container {
+        width: 90%;
+        margin: auto;
+        height: 5em;
+        display: flex;
+        align-items: center;
+    }
+
+    .options-container {
+        height: 4em;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        color: $red;
+
+        svg {
+            width: 2em;
             height: auto;
             cursor: pointer;
         }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Controls from './controls/Controls';
+import Popup from './popup/Popup';
 import Navigation from './navigation/Navigation';
 import MainView from './views/MainView';
 import SearchView from './search/SearchView';
@@ -25,14 +26,25 @@ export default class SpotiFree extends Component {
                 data: {view: 'main'},
                 props: {}
             }],
+            popup: {
+                isOpen: false,
+                isClosing: false,
+                topContainer: {},
+                bottomContainer: {},
+            },
+            controls: {
+                isOpen: false,
+                isClosing: false,
+            },
             navSection: 'library',
-            track: {
+            track: localStorage.track ? JSON.parse(localStorage.track) : {
                 playlist: [],
                 index: 0,
                 duration: 0,
                 convertedDuration: '0:00',
                 currentTime: 0,
                 convertedCurrentTime: '0:00',
+                volume: 50,
                 meta: {
                     name: 'SpotiFree',
                     artist: 'Tanner Villarete',
@@ -41,7 +53,8 @@ export default class SpotiFree extends Component {
                     artwork: '/files/images/Artwork.jpg'
                 },
             }
-        }
+        };
+        this.setupAudio()
     }
 
     handleEvent = (options) => {
@@ -59,6 +72,7 @@ export default class SpotiFree extends Component {
                 this.lastView();
                 break;
             case 'play-new':
+                Object.assign(options, {play: true});
                 this.setupAudio(options);
                 break;
             case 'play':
@@ -78,6 +92,18 @@ export default class SpotiFree extends Component {
                 break;
             case 'fullscreen-controls':
                 this.setState({ fullscreenControls: options.value });
+                break;
+            case 'volume':
+                this.changeVolume(options.value);
+                break;
+            case 'popup':
+                this.showPopup(options);
+                break;
+            case 'popup-close':
+                this.hidePopup(options);
+                break;
+            case 'controls':
+                this.toggleControls(options);
                 break;
             default:
                 console.log("idk");
@@ -126,13 +152,15 @@ export default class SpotiFree extends Component {
             state.track.index = options.index;
             state.track.playlist = options.playlist;
             return state;
-        }, this.playAudio);
+        }, () => {
+            options.play ? this.playAudio() : '';
+        });
     }
 
     playAudio = () => {
         this.audioElement.load();
-        this.audioElement.play();
-        setTimeout(() => {
+        this.playPromise = this.audioElement.play();
+        this.playPromise.then(() => {
             this.setState(state => {
                 state.track.duration = Math.floor(this.audioElement.duration);
                 return state;
@@ -140,11 +168,11 @@ export default class SpotiFree extends Component {
             setInterval(() => {
                 this.setState(state => {
                     state.track.currentTime = this.audioElement.currentTime;
-                    //console.log(state.track);
+                    localStorage.track = JSON.stringify(this.state.track);
                     return state;
                 });
-            }, 1000);
-        }, 100);
+            }, 300);
+        });
     }
 
     onAudioEnded = () => {
@@ -152,7 +180,6 @@ export default class SpotiFree extends Component {
     }
 
     resume = () => {
-        console.log(this.audioElement.src);
         if (this.audioElement.src) {
             this.setState({ isPlaying: true }, () => {
                 this.audioElement.play();
@@ -182,6 +209,11 @@ export default class SpotiFree extends Component {
 
     previous = () => {
         this.setState(state => {
+            if (state.track.currentTime > 3) {
+                state.track.currentTime = 0;
+                state.isPlaying = true;
+                return state;
+            }
             state.track.index--;
             if (state.track.index < 0) {
                 return null
@@ -190,6 +222,66 @@ export default class SpotiFree extends Component {
             state.track.meta = state.track.playlist[state.track.index];
             return state;
         }, this.playAudio);
+    }
+
+    changeVolume = value => {
+        this.setState(state => {
+            state.track.volume = value;
+            return state;
+        }, () => {
+            if (this.audioElement.src) {
+                this.audioElement.volume = value/100;
+            }
+        });
+    }
+
+    showPopup = options => {
+        this.setState({
+            popup: {
+                isOpen: true,
+                topContainer: options.topContainer,
+                bottomContainer: options.bottomContainer,
+            }
+        })
+    }
+
+    hidePopup = options => {
+        this.setState(state => {
+            state.popup.isClosing = true;
+            return state;
+        });
+        setTimeout(() => {
+            this.setState(state => {
+                state.popup.isClosing = false;
+                state.popup.isOpen = false;
+                return state;
+            });
+        }, 240);
+    }
+
+    toggleControls = options => {
+        if (options.value) {
+            this.setState(state => {
+                state.controls.isOpen = true;
+                return state;
+            });
+        } else {
+            this.hideControls();
+        }
+    }
+
+    hideControls = () => {
+        this.setState(state => {
+            state.controls.isClosing = true;
+            return state;
+        });
+        setTimeout(() => {
+            this.setState(state => {
+                state.controls.isClosing = false;
+                state.controls.isOpen = false;
+                return state;
+            });
+        }, 250);
     }
 
     getView = () => {
@@ -229,10 +321,12 @@ export default class SpotiFree extends Component {
                         current={this.state.navSection}
                         onEvent={this.handleEvent}/>
                     <div className="controls">
-                        <div className={`controls-cover ${this.state.fullscreenControls ? '' : 'hidden'}`}></div>
+                        <div className={`controls-cover ${this.state.controls.isOpen ? '' : 'hidden'} ${this.state.controls.isClosing ? 'closing' : ''}`}
+                            onClick={this.hideControls}></div>
                         <Controls
                             track={this.state.track}
                             isPlaying={this.state.isPlaying}
+                            data={this.state.controls}
                             onEvent={this.handleEvent}
                         />
                         <audio
@@ -241,6 +335,9 @@ export default class SpotiFree extends Component {
                             onEnded={this.onAudioEnded}></audio>
                     </div>
                 </div>
+                {this.state.popup.isOpen ?
+                    <Popup data={this.state.popup}
+                        onEvent={this.handleEvent}/> : ''}
             </div>
         );
     }

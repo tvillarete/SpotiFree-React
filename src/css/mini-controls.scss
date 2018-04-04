@@ -6,7 +6,7 @@
     justify-content: space-between;
     cursor: pointer;
     overflow: hidden;
-    transition: all 0.25s ease-in-out;
+    backdrop-filter: blur(30px);
 
     @media #{$mobile} {
         border-top: 1px solid rgba(0,0,0,0.12);
@@ -20,6 +20,10 @@
         svg {
             display: none;
         }
+    }
+
+    &.closing {
+        animation: fadeIn 0.3s;
     }
 
     .info-container {

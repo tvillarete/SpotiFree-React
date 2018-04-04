@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Play, Pause, FastForward, Rewind } from 'react-feather';
+import { Play, Pause, FastForward, Rewind, MoreHorizontal } from 'react-feather';
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
 
@@ -7,7 +7,7 @@ export default class PlaybackControls extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            popupOpen: false,
         }
     }
 
@@ -26,10 +26,19 @@ export default class PlaybackControls extends Component {
                     min={0}
                     max={this.props.track.duration}
                     value={Math.floor(this.props.track.currentTime)}
+                    tooltip={false}
                     onEvent={this.handleEvent}
                     />
                 <Metadata {...this.props}/>
                 <PlaybackButtons {...this.props}
+                    onEvent={this.handleEvent}/>
+                <VolumeSlider {...this.props}
+                    min={0}
+                    max={100}
+                    value={this.props.track.volume}
+                    tooltip={false}
+                    onEvent={this.handleEvent}/>
+                <Options
                     onEvent={this.handleEvent}/>
             </div>
         );
@@ -132,6 +141,67 @@ class PlaybackButtons extends Component {
                     onClick={this.pause}/>
                 <FastForward className="skip"
                     onClick={this.skip}/>
+            </div>
+        );
+    }
+}
+
+class VolumeSlider extends Component {
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            value: props.value,
+        }
+    }
+
+    handleOnChange = value => {
+        this.setState({ value: value })
+        this.props.onEvent({
+            type: 'volume',
+            value: value,
+        });
+    }
+
+    render() {
+        return (
+            <div className="volume-slider-container">
+                <Slider
+                    {...this.props}
+                    value={this.props.value}
+                    className="volume-slider"
+                    onChange={this.handleOnChange}
+                />
+            </div>
+        );
+    }
+}
+
+class Options extends Component {
+    handleEvent = options => {
+        this.props.onEvent(options);
+    }
+
+    showPopup = () => {
+        this.props.onEvent({
+            type: 'popup',
+            topContainer: {
+                'Add to Playlist': {
+                    type: 'playlist-add',
+                    value: this.props.track
+                },
+            },
+            bottomContainer: {
+                'Cancel': {
+                    type: 'popup-close'
+                }
+            }
+        });
+    }
+
+    render() {
+        return (
+            <div className="options-container">
+                <MoreHorizontal onClick={this.showPopup} />
             </div>
         );
     }

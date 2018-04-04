@@ -9,28 +9,18 @@ export default class Controls extends Component {
             fullscreen: false,
             track: props.track,
         }
-        this.handleEvent = this.handleEvent.bind(this);
-        this.toggleFullscreen = this.toggleFullscreen.bind(this);
     }
 
     // Event passed to SpotiFree.js
-    handleEvent(options) {
-        if (options.type === 'fullscreen') {
-            this.toggleFullscreen();
-            this.props.onEvent({
-                type: 'fullscreen-controls',
-                value: !this.state.fullscreen
-            });
-        } else {
-            this.props.onEvent(options);
-        }
+    handleEvent = (options) => {
+        this.props.onEvent(options);
     }
 
-    toggleFullscreen() {
-        this.setState(state => {
-            state.fullscreen = !state.fullscreen;
-            return state;
-        })
+    toggleFullscreen = () => {
+        this.props.onEvent({
+            type: 'controls',
+            value: !this.props.data.isOpen
+        });
     }
 
     changeTime = (options) => {
@@ -70,14 +60,14 @@ export default class Controls extends Component {
             track,
             fullscreen
         } = this.state;
-
+        const classNames = `${this.props.data.isOpen ? 'fullscreen' : ''} ${this.props.data.isClosing ? 'closing' : ''}`;
         return (
-            <div className={`controls ${this.state.fullscreen ? 'fullscreen' : ''}`}>
+            <div className={`controls ${classNames}`}>
                 <MiniControls {...this.props}
                     track={track}
                     fullscreen={fullscreen}
                     onEvent={this.handleEvent}/>
-                {this.state.fullscreen ? <PlaybackControls {...this.props} /> : ''}
+                {this.props.data.isOpen ? <PlaybackControls {...this.props} /> : ''}
             </div>
         );
     }
