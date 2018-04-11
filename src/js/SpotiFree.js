@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Controls from './controls/Controls';
 import Popup from './popup/Popup';
+import PlaylistSelector from './views/components/PlaylistSelector';
+import PlaylistCreator from './views/components/PlaylistCreator';
 import Navigation from './navigation/Navigation';
 import MainView from './views/MainView';
 import SearchView from './search/SearchView';
@@ -9,6 +11,7 @@ import ArtistView from './views/ArtistView';
 import AlbumListView from './views/AlbumListView';
 import AlbumView from './views/AlbumView';
 import PlaylistListView from './views/PlaylistListView';
+import PlaylistView from './views/PlaylistView';
 
 export default class SpotiFree extends Component {
     constructor() {
@@ -21,6 +24,7 @@ export default class SpotiFree extends Component {
                 'albums': <AlbumListView onEvent={this.handleEvent}/>,
                 'album': <AlbumView onEvent={this.handleEvent}/>,
                 'playlists': <PlaylistListView onEvent={this.handleEvent}/>,
+                'playlist': <PlaylistView onEvent={this.handleEvent}/>,
             },
             viewStack: [{
                 data: {view: 'main'},
@@ -31,6 +35,18 @@ export default class SpotiFree extends Component {
                 isClosing: false,
                 topContainer: {},
                 bottomContainer: {},
+            },
+            modals: {
+                playlistSelector: {
+                    isOpen: false,
+                    isClosing: false,
+                    data: null
+                },
+                playlistCreator: {
+                    isOpen: false,
+                    isClosing: false,
+                    data: null
+                }
             },
             controls: {
                 isOpen: false,
@@ -54,7 +70,6 @@ export default class SpotiFree extends Component {
                 },
             }
         };
-        this.setupAudio()
     }
 
     handleEvent = (options) => {
@@ -105,6 +120,12 @@ export default class SpotiFree extends Component {
             case 'controls':
                 this.toggleControls(options);
                 break;
+            case 'modal-open':
+                this.toggleModal(options);
+                break;
+            case 'modal-close':
+                this.closeModal(options);
+                break;
             default:
                 console.log("idk");
         }
@@ -152,9 +173,7 @@ export default class SpotiFree extends Component {
             state.track.index = options.index;
             state.track.playlist = options.playlist;
             return state;
-        }, () => {
-            options.play ? this.playAudio() : '';
-        });
+        }, options.play ? this.playAudio : '');
     }
 
     playAudio = () => {
@@ -165,14 +184,18 @@ export default class SpotiFree extends Component {
                 state.track.duration = Math.floor(this.audioElement.duration);
                 return state;
             });
-            setInterval(() => {
-                this.setState(state => {
-                    state.track.currentTime = this.audioElement.currentTime;
-                    localStorage.track = JSON.stringify(this.state.track);
-                    return state;
-                });
-            }, 300);
+            this.setUpdateInterval();
         });
+    }
+
+    setUpdateInterval = () => {
+        this.updateInterval = setInterval(() => {
+            this.setState(state => {
+                state.track.currentTime = this.audioElement.currentTime;
+                localStorage.track = JSON.stringify(this.state.track);
+                return state;
+            });
+        }, 300);
     }
 
     onAudioEnded = () => {
@@ -185,6 +208,7 @@ export default class SpotiFree extends Component {
                 this.audioElement.play();
             });
         }
+        this.setUpdateInterval();
     }
 
     pause = () => {
@@ -193,6 +217,7 @@ export default class SpotiFree extends Component {
                 this.audioElement.pause();
             });
         }
+        clearInterval(this.updateInterval);
     }
 
     skip = () => {
@@ -245,7 +270,7 @@ export default class SpotiFree extends Component {
         })
     }
 
-    hidePopup = options => {
+    hidePopup = () => {
         this.setState(state => {
             state.popup.isClosing = true;
             return state;
@@ -272,16 +297,41 @@ export default class SpotiFree extends Component {
 
     hideControls = () => {
         this.setState(state => {
-            state.controls.isClosing = true;
+            state.controls.isOpen = false;
+            return state;
+        });
+    }
+
+    toggleModal = options => {
+        const modal = options.modal;
+
+        this.hidePopup();
+        this.setState(state => {
+            state.modals[modal].isOpen = true;
+            state.modals[modal].data = options.value;
+            return state;
+        });
+    }
+
+    closeModal = options => {
+        this.setState(state => {
+            for (let modal in options.modals) {
+                const name = options.modals[modal];
+                state.modals[name].isClosing = true;
+            }
             return state;
         });
         setTimeout(() => {
             this.setState(state => {
-                state.controls.isClosing = false;
-                state.controls.isOpen = false;
+                for (let modal in options.modals) {
+                    const name = options.modals[modal];
+                    state.modals[name].isClosing = false;
+                    state.modals[name].isOpen = false;
+                }
                 return state;
             });
-        }, 250);
+        }, 350);
+
     }
 
     getView = () => {
@@ -313,28 +363,36 @@ export default class SpotiFree extends Component {
 
     render() {
         return (
-            <div className="spotifree">
+            <div className={`spotifree ${this.state.controls.isOpen ? 'controls-open' : ''}`}>
                 {this.state.navSection === 'library' ? this.getView() : <SearchView />}
                 <div className="bottom-bar">
                     <Navigation
                         grayed={this.state.fullscreenControls}
                         current={this.state.navSection}
                         onEvent={this.handleEvent}/>
-                    <div className="controls">
-                        <div className={`controls-cover ${this.state.controls.isOpen ? '' : 'hidden'} ${this.state.controls.isClosing ? 'closing' : ''}`}
-                            onClick={this.hideControls}></div>
-                        <Controls
-                            track={this.state.track}
-                            isPlaying={this.state.isPlaying}
-                            data={this.state.controls}
-                            onEvent={this.handleEvent}
-                        />
-                        <audio
-                            ref={(audio) => {this.audioElement = audio}}
-                            src={this.state.track.meta.url}
-                            onEnded={this.onAudioEnded}></audio>
-                    </div>
+                    <div className={`controls-cover ${this.state.controls.isOpen ? '' : 'hidden'} ${this.state.controls.isClosing ? 'closing' : ''}`}
+                        onClick={this.hideControls}></div>
+                    <Controls
+                        track={this.state.track}
+                        isPlaying={this.state.isPlaying}
+                        data={this.state.controls}
+                        onEvent={this.handleEvent}
+                    />
+                    <audio
+                        ref={(audio) => {this.audioElement = audio}}
+                        src={this.state.track.meta.url}
+                        onEnded={this.onAudioEnded}></audio>
                 </div>
+                {this.state.modals.playlistSelector.isOpen ?
+                    <PlaylistSelector
+                        options={this.state.modals.playlistSelector.data}
+                        isClosing={this.state.modals.playlistSelector.isClosing}
+                        onEvent={this.handleEvent}/> : ''}
+                {this.state.modals.playlistCreator.isOpen ?
+                    <PlaylistCreator
+                        options={this.state.modals.playlistCreator.data}
+                        isClosing={this.state.modals.playlistCreator.isClosing}
+                        onEvent={this.handleEvent}/> : ''}
                 {this.state.popup.isOpen ?
                     <Popup data={this.state.popup}
                         onEvent={this.handleEvent}/> : ''}

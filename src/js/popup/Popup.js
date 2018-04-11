@@ -18,12 +18,13 @@ export default class Popup extends Component {
         for (let name in data) {
             const action = data[name];
             popupButtons.push(
-                <h3
+                <div className="popup-button"
                     key={name}
-                    className="popup-button"
                     onClick={() => {this.handleClick(action)}}>
-                    {name}
-                </h3>
+                    <h3 className="text" >
+                        {name}
+                    </h3>
+                </div>
             );
         }
         return popupButtons;

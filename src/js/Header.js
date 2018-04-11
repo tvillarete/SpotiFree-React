@@ -14,24 +14,64 @@ export default class Header extends Component {
         this.props.onEvent(options);
     }
 
+    handleCancel = () => {
+        this.props.onCancel();
+    }
+
+    handleDone = () => {
+        this.props.onDone();
+    }
+
     render() {
+        const {
+            position,
+            backButton,
+            leftCancelButton,
+            text,
+            rightCancelButton,
+            rightDoneButton,
+        } = this.props;
+
         return(
-            <div className="header">
+            <div className={`header ${position === 'relative' ? 'relative' : ''}`}>
                 <div className="left-container">
-                    <div className="back-button"
-                        onClick={()=>{this.handleEvent({
-                            type: 'back',
-                        })}}>
-                        <ChevronLeft />
-                        <h3>{this.props.backText || 'Back'}</h3>
-                    </div>
+                    {backButton ?
+                        <BackButton {...this.props} onEvent={this.handleEvent} /> : ''}
+                    {leftCancelButton ?
+                        <h3 className="cancel-button"
+                            onClick={this.handleCancel}>Cancel</h3> : ''}
                 </div>
                 <div className="mid-container">
                     <h3 className={`header-title ${this.props.showTitle ? '' : 'invisible'}`}>
-                        {this.props.text}
+                        {text}
                     </h3>
                 </div>
-                <div className="right-container"></div>
+                <div className="right-container">
+                    {rightCancelButton ?
+                        <h3 className="cancel-button"
+                            onClick={this.handleCancel}>Cancel</h3> : ''}
+                    {rightDoneButton ?
+                        <h3 className="done-button"
+                            onClick={this.handleDone}>Done</h3> : ''}
+                </div>
+            </div>
+        );
+    }
+}
+
+class BackButton extends Component {
+    handleClick = () => {
+        this.props.onEvent({
+            type: 'back'
+        });
+    }
+
+    render() {
+        return (
+            <div className="back-button"
+                onClick={this.handleClick}>
+                <ChevronLeft />
+                <h3>{this.props.backText || 'Back'}</h3>
             </div>
         );
     }

@@ -19,10 +19,7 @@ export default class PlaybackControls extends Component {
         const meta = this.props.track.meta;
         return(
             <div className={`playback-controls ${this.props.isPlaying ? 'playing' : ''}`}>
-                <div className="artwork-container">
-                    <img alt={meta.name} src={meta.artwork} />
-                </div>
-                <TrackTimeSlider
+                 <TrackTimeSlider
                     min={0}
                     max={this.props.track.duration}
                     value={Math.floor(this.props.track.currentTime)}
@@ -38,7 +35,7 @@ export default class PlaybackControls extends Component {
                     value={this.props.track.volume}
                     tooltip={false}
                     onEvent={this.handleEvent}/>
-                <Options
+                <Options {...this.props}
                     onEvent={this.handleEvent}/>
             </div>
         );
@@ -181,13 +178,17 @@ class Options extends Component {
         this.props.onEvent(options);
     }
 
+    /* Format:
+     * 'button title' : { action }
+     */
     showPopup = () => {
         this.props.onEvent({
             type: 'popup',
             topContainer: {
                 'Add to Playlist': {
-                    type: 'playlist-add',
-                    value: this.props.track
+                    type: 'modal-open',
+                    modal: 'playlistSelector',
+                    value: this.props.track.meta
                 },
             },
             bottomContainer: {

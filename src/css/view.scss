@@ -3,6 +3,7 @@
     padding: 3em 0 5em 1em;
     max-width: 70em;
     margin: auto;
+    transition: all 0.4s ease-in-out;
     animation: slideNewView $duration ease-in-out;
 
     &.slide-in-left {
@@ -19,16 +20,13 @@
 
     @media screen and (max-width: 750px) {
         padding-left: 0;
-
-        .view-header {
-            padding-left: 0.5em;
-        }
     }
 }
 
 .view-header {
     font-size: 2em;
     margin: 0 0 0.25em 0;
+    padding-left: 0.75em;
 }
 
 @keyframes slideInLeft {

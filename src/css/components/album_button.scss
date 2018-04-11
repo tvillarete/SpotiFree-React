@@ -6,11 +6,11 @@
 
     img {
         flex: 1;
-        height: 100%;
-        max-height: 200px;
-        border: 1px solid lightgray;
+        height: auto;
+        max-width: 100%;
+        border: 1px solid $borderColor;
         box-sizing: border-box;
-        border-radius: 6px;
+        border-radius: 4px;
     }
 
     .album-button-text, .album-button-subtext {

@@ -1,12 +1,119 @@
 .mini-controls {
+    $duration: 0.35s;
+    $transition: all $duration ease;
+
     position: relative;
-    height: 4em;
+    height: 3em;
     width: 100%;
-    display: flex;
-    justify-content: space-between;
     cursor: pointer;
-    overflow: hidden;
-    backdrop-filter: blur(30px);
+    border-left: 1px solid $borderColor;
+    box-sizing: border-box;
+    background: rgba(245,245,245,0.8);
+    transition: $transition;
+
+    @media #{$mobile} {
+        &:not(.fullscreen) {
+            border: none;
+            height: 4em;
+            border-bottom: 1px solid $borderColor;
+            border-top: 1px solid $borderColor;
+
+            .info-container {
+                height: 4em;
+            }
+
+            .artwork-container {
+                height: 4em;
+                width: 4.5em;
+                padding: 0.4em;
+
+                .artwork {
+                    height: 3em;
+                    width: auto;
+                    border-radius: 2px;
+                    box-shadow: 0 3px 10px #00000059;
+                }
+            }
+        }
+    }
+
+    &.fullscreen {
+        height: 30vh;
+        border: none;
+        margin-bottom: 1em;
+        background: white;
+
+        .artwork-container {
+            height: 40vh;
+            width: 100%;
+            padding: 1em 0;
+
+            .artwork {
+                height: 18em;
+                border-radius: 4px;
+            }
+        }
+
+        .info-container {
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+
+    .artwork-container {
+        position: relative;
+        height: 3em;
+        max-height: 100%;
+        width: 3em;
+        padding: 0.2em;
+        text-align: center;
+        transition: $transition;
+
+        .artwork {
+            height: 2.5em;
+            width: auto;
+            max-height: 100%;
+            max-width: 100%;
+            transition: $transition;
+        }
+    }
+
+    .info-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 5em;
+        transition: $transition;
+
+        .song-name {
+            margin: auto 0;
+            font-weight: normal;
+            color: rgb(100,100,100);
+            font-size: 0.9em;
+        }
+    }
+
+    .button-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 1em;
+    }
+
+    svg {
+        height: 2em;
+        width: 2em;
+        margin: 0 0.5em;
+    }
+}
+
+/*
+.fucnk {
 
     @media #{$mobile} {
         border-top: 1px solid rgba(0,0,0,0.12);
@@ -23,7 +130,7 @@
     }
 
     &.closing {
-        animation: fadeIn 0.3s;
+        animation: fadein $duration;
     }
 
     .info-container {
@@ -62,4 +169,4 @@
         width: 2em;
         margin: auto 1em;
     }
-}
+}*/

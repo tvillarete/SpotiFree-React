@@ -1,4 +1,6 @@
 $mobile: "screen and (max-width: 750px)";
+$red: #ff2d55;
+$borderColor: rgba(0,0,0,0.12);
 
 html {
     font-family: sans-serif;
@@ -10,7 +12,15 @@ body {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
+}
+
+.spotifree {
+    &.controls-open {
+        .navigation {
+            transform: translateY(100%);
+        }
+    }
 }
 
 @keyframes fadeOut {

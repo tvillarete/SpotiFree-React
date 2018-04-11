@@ -81,6 +81,7 @@ export default class AlbumListView extends Component {
                 <Header
                  text="Albums"
                  showTitle={this.state.isScrolled}
+                 backButton
                  backText="Library"
                  onEvent={this.handleEvent}/>
                 <h2 className="view-header">Albums</h2>

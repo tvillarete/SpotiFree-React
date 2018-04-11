@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NavButton from './components/NavButton';
+import PlaylistButton from './components/PlaylistButton';
 import Header from '../Header';
 
 export default class PlaylistListView extends Component {
@@ -16,33 +16,58 @@ export default class PlaylistListView extends Component {
         this.props.onEvent(options);
     }
 
+    newPlaylist = () => {
+        this.props.onEvent({
+            type: 'modal-open',
+            modal: 'playlistCreator',
+        });
+    }
+
+    showPlaylist = options => {
+        this.props.onEvent({
+            type: 'view',
+            category: 'playlist', /* artist, album */
+            value: {
+                playlist: options.name
+            }
+        });
+    }
+
     handleScroll = (e) => {
         const scrollPos = window.pageYOffset;
         const threshhold = 48;
         this.setState({ isScrolled: scrollPos >= threshhold });
     }
 
-    fetchPlaylists = () => {
-
+    getNewPlaylistButton = () => {
+        return (
+            <PlaylistButton
+                img="files/images/playlist_add.jpg"
+                name="New Playlist..."
+                color="red"
+                onEvent={this.newPlaylist} />
+        );
     }
 
-    renderPlaylistButtons = () => {
-        let artistButtons = [];
+    getPlaylistButtons = () => {
+        const playlists = this.state.playlists;
+        let playlistButtons = [];
 
-        this.state.data.forEach(data => {
-            artistButtons.push(
-                <NavButton
-                 color="black"
-                 key={data.artist}
-                 type="view"
-                 view="artist"
-                 artist={data.artist}
-                 category="artist"
-                 text={data.artist}
-                 onEvent={this.handleEvent}/>
+        for (let name in playlists) {
+            playlistButtons.push(
+                <PlaylistButton
+                    key={name}
+                    name={name}
+                    chevron
+                    onEvent={this.showPlaylist}/>
             );
-        });
-        return artistButtons;
+        };
+        return playlistButtons;
+    }
+
+    fetchPlaylists = () => {
+        const playlists = localStorage.playlists ? JSON.parse(localStorage.playlists) : {};
+        this.setState({ playlists: playlists });
     }
 
     componentDidMount() {
@@ -62,15 +87,17 @@ export default class PlaylistListView extends Component {
 
     render() {
         return (
-            <div className={`view playlist-view ${this.props.classNames}`}>
+            <div className={`view playlist-list-view ${this.props.classNames}`}>
                 <Header
                     text="Playlists"
                     showTitle={this.state.isScrolled}
+                    backButton
                     backText="Library"
                     onEvent={this.handleEvent}/>
                 <h1 className="view-header">Playlists</h1>
-                <div className="artist-button-container">
-                    {this.state.data ? this.renderPlaylistButtons() : '' }
+                <div className="playlist-button-container">
+                    {this.getNewPlaylistButton()}
+                    {this.getPlaylistButtons()}
                 </div>
             </div>
         );

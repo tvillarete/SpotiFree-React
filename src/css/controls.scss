@@ -1,43 +1,44 @@
 .controls {
-    position: relative;
-    height: 4em;
+    $duration: 0.35s;
+    $transition: all $duration ease;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    height: 3em;
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 25em;
+    backdrop-filter: blur(30px);
+    transition: $transition;
 
     @media #{$mobile} {
+        z-index: 0;
+        bottom: 3em;
+        height: 4em;
         max-width: none;
     }
 
     &.fullscreen {
-        position: fixed;
-        top: 0;
-        right: 0;
         height: 100%;
         width: 100%;
+        bottom: 0;
         background: white;
-        backdrop-filter: none;
-        animation: controls-fullscreen 0.3s ease-in-out;
+
+        .playback-controls {
+            opacity: 1;
+        }
+
+        @media #{$mobile} {
+            height: 96%;
+            max-width: none;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
     }
 
     &.closing {
-        animation: controls-minimize 0.3s;
-    }
-
-    .controls-cover {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0,0,0,0.5);
-        cursor: pointer;
-        animation: fadeIn 0.3s;
-
-        &.closing {
-            animation: fadeOut 0.3s;
-        }
+        //animation: controls-minimize 0.3s;
     }
 
     @keyframes controls-fullscreen {
@@ -54,4 +55,20 @@
             transform: translateY(100%);
         }
     }
+}
+
+.controls-cover {
+    $duration: 0.35s;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.5);
+    cursor: pointer;
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+
+    animation: fadeIn $duration;
 }

@@ -9,14 +9,30 @@
     display: flex;
     background: white;
 
+    &.relative {
+        position: relative;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 100%;
+    }
+
     .left-container, .mid-container, .right-container {
         display: flex;
+        align-items: center;
         flex: 1;
     }
 
+    .left-container {
+        padding-left: 0.5em;
+    }
+
     .mid-container {
-        display: flex;
         justify-content: center;
+    }
+
+    .right-container {
+        justify-content: flex-end;
+        padding-right: 1em;
     }
 
     .header-title {
@@ -44,5 +60,11 @@
         svg {
             margin: auto 0;
         }
+    }
+
+    .cancel-button, .done-button {
+        font-weight: normal;
+        color: $red;
+        cursor: pointer;
     }
 }

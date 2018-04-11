@@ -60,14 +60,16 @@ export default class Controls extends Component {
             track,
             fullscreen
         } = this.state;
+
         const classNames = `${this.props.data.isOpen ? 'fullscreen' : ''} ${this.props.data.isClosing ? 'closing' : ''}`;
+
         return (
             <div className={`controls ${classNames}`}>
                 <MiniControls {...this.props}
                     track={track}
                     fullscreen={fullscreen}
                     onEvent={this.handleEvent}/>
-                {this.props.data.isOpen ? <PlaybackControls {...this.props} /> : ''}
+                <PlaybackControls {...this.props} />
             </div>
         );
     }

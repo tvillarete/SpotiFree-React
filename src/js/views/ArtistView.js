@@ -61,6 +61,7 @@ export default class ArtistView extends Component {
             <div className={`view artist-view ${this.props.classNames}`}>
                 <Header
                  text={this.props.artist}
+                 backButton
                  backText="Artists"
                  onEvent={this.handleEvent}/>
                 <div className="album-list-container">

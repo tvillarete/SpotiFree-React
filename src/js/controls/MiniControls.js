@@ -43,21 +43,20 @@ export default class MiniControls extends Component {
         return(
             <div className={`mini-controls ${classNames}`}
              onClick={this.toggleFullscreen}>
-                <div className="info-container">
-                    <div className="artwork"
-                        style={{backgroundImage: `url("${this.props.track.meta.artwork}")`}}></div>
-                    <div className="song-title">
-                        <h3>{this.props.track.meta.name}</h3>
-                    </div>
+                <div className="artwork-container">
+                    <img className="artwork"
+                        src={this.props.track.meta.artwork}/>
                 </div>
-                <div className="button-container">
-                    <Play onClick={this.play}
-                        className={this.props.isPlaying ? 'hidden' : ''} />
-                    <Pause onClick={this.pause}
-                     className={this.props.isPlaying ? '' : 'hidden'} />
-                    <FastForward
-                     onClick={this.skip} />
-
+                <div className="info-container">
+                    <h3 className="song-name">{this.props.track.meta.name}</h3>
+                    <div className="button-container">
+                        <Play onClick={this.play}
+                            className={this.props.isPlaying ? 'hidden' : ''} />
+                        <Pause onClick={this.pause}
+                         className={this.props.isPlaying ? '' : 'hidden'} />
+                        <FastForward
+                         onClick={this.skip} />
+                    </div>
                 </div>
             </div>
         );

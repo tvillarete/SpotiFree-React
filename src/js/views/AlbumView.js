@@ -89,8 +89,9 @@ export default class AlbumView extends Component {
         return (
             <div className={`view album-view ${this.props.classNames}`}>
                 <Header
-                 backText="Albums"
-                 onEvent={this.handleEvent}/>
+                    backButton
+                    backText="Albums"
+                    onEvent={this.handleEvent}/>
                 <div className="album-container">
                     <AlbumHeader
                         {...this.props}

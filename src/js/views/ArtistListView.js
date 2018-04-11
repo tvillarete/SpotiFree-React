@@ -64,7 +64,6 @@ export default class ArtistListView extends Component {
         window.removeEventListener('scroll', this.handleScroll);
     }
 
-
     componentWillMount() {
         if (!this.state.data) {
             this.fetchArtists();
@@ -77,6 +76,7 @@ export default class ArtistListView extends Component {
                 <Header
                     text="Artists"
                     showTitle={this.state.isScrolled}
+                    backButton
                     backText="Library"
                     onEvent={this.handleEvent}/>
                 <h1 className="view-header">Artists</h1>

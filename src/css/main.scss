@@ -1,9 +1,12 @@
+
+@import 'global';
+
 @import 'components/nav_button';
 @import 'components/album_button';
 @import 'components/track-button';
 @import 'components/slider';
+@import 'components/playlist-button';
 
-@import 'global';
 @import 'view';
 @import 'header';
 @import 'controls';
@@ -11,6 +14,9 @@
 @import 'mini-controls';
 @import 'playback-controls';
 @import 'popup';
+@import 'modal';
+@import 'playlist-selector';
+@import 'playlist-creator';
 
 // Views
 @import 'views/main-view';
@@ -18,3 +24,4 @@
 @import 'views/album-view';
 @import 'views/album-list-view';
 @import 'views/artist-list-view';
+@import 'views/playlist-list-view';
