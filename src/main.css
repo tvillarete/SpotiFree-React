@@ -8,9 +8,13 @@ body {
 .hidden {
   display: none !important; }
 
-.spotifree.controls-open .navigation {
-  transform: translateY(100%); }
-
+.spotifree {
+  animation: fadeScale 1s; }
+  .spotifree.controls-open .navigation {
+    transform: translateY(100%); }
+@keyframes fadeScale {
+  0% {
+    opacity: 0; } }
 @keyframes fadeOut {
   100% {
     opacity: 0; } }
@@ -134,6 +138,74 @@ body {
     .playlist-select-button h3.red {
       color: #ff2d55; }
 
+.welcome-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1.5s; }
+  .welcome-container.closing {
+    opacity: 0; }
+    .welcome-container.closing .logo-container {
+      transform: scale(7);
+      border-radius: 0; }
+      .welcome-container.closing .logo-container div {
+        opacity: 0; }
+  .welcome-container .logo-container {
+    position: relative;
+    height: 10em;
+    width: 10em;
+    border-radius: 30px;
+    background: white;
+    transition: all 1.5s ease;
+    animation: fadeScaleIn 0.7s;
+    border: 1px solid rgba(0, 0, 0, 0.12); }
+    .welcome-container .logo-container div {
+      position: absolute;
+      background: black;
+      background: #F95F79;
+      transition: all 1.5s ease; }
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0; } }
+  .welcome-container .logo-bridge {
+    height: 1em;
+    width: 5em;
+    top: 2em;
+    left: 2em;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px; }
+  .welcome-container .logo-stem1 {
+    height: 3em;
+    width: 1em;
+    top: 3em;
+    left: 2em; }
+  .welcome-container .logo-stem2 {
+    height: 3em;
+    width: 1em;
+    top: 3em;
+    left: 6em; }
+  .welcome-container .logo-dot1 {
+    height: 2.5em;
+    width: 2.5em;
+    top: 6em;
+    left: 2em;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px; }
+  .welcome-container .logo-dot2 {
+    height: 2.5em;
+    width: 2.5em;
+    top: 6em;
+    left: 6em;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px; }
+
 .view {
   padding: 3em 0 5em 1em;
   max-width: 70em;
@@ -148,7 +220,8 @@ body {
     animation: slideViewRight 0.15s ease-in-out; }
   @media screen and (max-width: 750px) {
     .view {
-      padding-left: 0; } }
+      padding-left: 0;
+      padding-bottom: 8em; } }
 
 .view-header {
   font-size: 2em;
@@ -318,6 +391,8 @@ body {
   box-sizing: border-box;
   background: rgba(245, 245, 245, 0.8);
   transition: all 0.35s ease; }
+  .mini-controls.playing .artwork {
+    transform: scale(1.2); }
   @media screen and (max-width: 750px) {
     .mini-controls:not(.fullscreen) {
       border: none;
@@ -452,6 +527,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 0 1em;
   min-height: 58vh;
   transition: all 0.4s ease-in-out;
   margin-top: 2em; }

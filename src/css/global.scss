@@ -16,9 +16,17 @@ body {
 }
 
 .spotifree {
+    animation: fadeScale 1s;
+
     &.controls-open {
         .navigation {
             transform: translateY(100%);
+        }
+    }
+
+    @keyframes fadeScale {
+        0% {
+            opacity: 0;
         }
     }
 }

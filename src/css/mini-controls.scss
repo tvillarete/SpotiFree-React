@@ -11,6 +11,12 @@
     background: rgba(245,245,245,0.8);
     transition: $transition;
 
+    &.playing {
+        .artwork {
+            transform: scale(1.2);
+        }
+    }
+
     @media #{$mobile} {
         &:not(.fullscreen) {
             border: none;

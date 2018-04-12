@@ -1,0 +1,93 @@
+.welcome-container {
+    $duration: 1.5s;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all $duration;
+
+    &.closing {
+        opacity: 0;
+
+        .logo-container {
+            transform: scale(7);
+            border-radius: 0;
+
+            div {
+                opacity: 0;
+            }
+        }
+    }
+
+    $br: 6px;
+    .logo-container {
+        position: relative;
+        height: 10em;
+        width: 10em;
+        border-radius: 30px;
+        background: white;
+        transition: all $duration ease;
+        animation: fadeScaleIn 0.7s;
+        border: 1px solid $borderColor;
+
+        div {
+            position: absolute;
+            background: black;
+            background: #F95F79;
+            transition: all $duration ease;
+        }
+
+        @keyframes fadeScaleIn {
+            0% {
+                opacity: 0;
+            }
+        }
+    }
+
+    .logo-bridge {
+        height: 1em;
+        width: 5em;
+        top: 2em;
+        left: 2em;
+        border-top-left-radius: $br;
+        border-top-right-radius: $br;
+    }
+
+    .logo-stem1 {
+        height: 3em;
+        width: 1em;
+        top: 3em;
+        left: 2em;
+    }
+
+    .logo-stem2 {
+        height: 3em;
+        width: 1em;
+        top: 3em;
+        left: 6em;
+    }
+
+    .logo-dot1 {
+        height: 2.5em;
+        width: 2.5em;
+        top: 6em;
+        left: 2em;
+        border-top-right-radius: $br;
+        border-bottom-right-radius: $br;
+        border-bottom-left-radius: $br;
+    }
+
+    .logo-dot2 {
+        height: 2.5em;
+        width: 2.5em;
+        top: 6em;
+        left: 6em;
+        border-top-right-radius: $br;
+        border-bottom-right-radius: $br;
+        border-bottom-left-radius: $br;
+    }
+}
