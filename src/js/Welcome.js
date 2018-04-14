@@ -5,11 +5,7 @@ export default class Welcome extends Component {
         return (
             <div className={`welcome-container ${this.props.isClosing ? 'closing' : ''}`}>
                 <div className="logo-container">
-                    <div className="logo-bridge"></div>
-                    <div className="logo-stem1"></div>
-                    <div className="logo-stem2"></div>
-                    <div className="logo-dot1"></div>
-                    <div className="logo-dot2"></div>
+                    <img src="files/images/note.svg" />
                 </div>
             </div>
         );

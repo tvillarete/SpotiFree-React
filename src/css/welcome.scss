@@ -16,9 +16,11 @@
         .logo-container {
             transform: scale(7);
             border-radius: 0;
+            box-shadow: none;
 
-            div {
+            img {
                 opacity: 0;
+                color: black;
             }
         }
     }
@@ -26,13 +28,14 @@
     $br: 6px;
     .logo-container {
         position: relative;
-        height: 10em;
-        width: 10em;
+        height: 15em;
+        width: 15em;
         border-radius: 30px;
         background: white;
         transition: all $duration ease;
         animation: fadeScaleIn 0.7s;
-        border: 1px solid $borderColor;
+        display: flex;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 
         div {
             position: absolute;
@@ -41,53 +44,18 @@
             transition: all $duration ease;
         }
 
+        img {
+            color: $red;
+            height: 10em;
+            width: auto;
+            margin: auto;
+            transition: all $duration ease;
+        }
+
         @keyframes fadeScaleIn {
             0% {
                 opacity: 0;
             }
         }
-    }
-
-    .logo-bridge {
-        height: 1em;
-        width: 5em;
-        top: 2em;
-        left: 2em;
-        border-top-left-radius: $br;
-        border-top-right-radius: $br;
-    }
-
-    .logo-stem1 {
-        height: 3em;
-        width: 1em;
-        top: 3em;
-        left: 2em;
-    }
-
-    .logo-stem2 {
-        height: 3em;
-        width: 1em;
-        top: 3em;
-        left: 6em;
-    }
-
-    .logo-dot1 {
-        height: 2.5em;
-        width: 2.5em;
-        top: 6em;
-        left: 2em;
-        border-top-right-radius: $br;
-        border-bottom-right-radius: $br;
-        border-bottom-left-radius: $br;
-    }
-
-    .logo-dot2 {
-        height: 2.5em;
-        width: 2.5em;
-        top: 6em;
-        left: 6em;
-        border-top-right-radius: $br;
-        border-bottom-right-radius: $br;
-        border-bottom-left-radius: $br;
     }
 }
