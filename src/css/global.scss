@@ -21,6 +21,7 @@ body {
     &.controls-open {
         .navigation {
             transform: translateY(100%);
+            opacity: 0;
         }
     }
 

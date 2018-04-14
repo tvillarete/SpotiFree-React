@@ -4,24 +4,19 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 0 1em;
-    min-height: 58vh;
+    width: 90%;
+    max-width: 20em;
+    margin: auto;
+    min-height: 60vh;
+    opacity: 0;
     transition: $transition;
-    margin-top: 2em;
-
-    &.playing {
-        img {
-            transform: scale(1.1);
-            box-shadow: 0 15px 50px #a0a0a0;
-        }
-    }
 
     .track-time-slider-container {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         height: 3em;
-        margin-top: 1em;
+        margin-top: 1.5em;
     }
 
     .time-container {
@@ -59,9 +54,23 @@
         max-width: 19em;
 
         svg {
-            width: 3em;
-            height: auto;
+            width: 1em;
+            height: 1em;
             cursor: pointer;
+        }
+
+        .play, .pause {
+            height: 2em;
+            width: 2em;
+        }
+
+        .skip, .previous {
+            height: 2em;
+            width: 2em;
+        }
+
+        .previous {
+            transform: rotate(180deg)
         }
     }
 
@@ -75,8 +84,9 @@
 
     .options-container {
         height: 4em;
+        width: 90%;
         display: flex;
-        justify-content: space-around;
+        justify-content: flex-end;
         align-items: center;
         color: $red;
 

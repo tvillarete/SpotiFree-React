@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Play, Pause, FastForward, Rewind, MoreHorizontal } from 'react-feather';
+import { MoreHorizontal } from 'react-feather';
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
 
@@ -16,7 +16,6 @@ export default class PlaybackControls extends Component {
     }
 
     render() {
-        const meta = this.props.track.meta;
         return(
             <div className={`playback-controls ${this.props.isPlaying ? 'playing' : ''}`}>
                  <TrackTimeSlider
@@ -82,7 +81,7 @@ class TrackTimeSlider extends Component {
                 />
                 <div className="time-container">
                     <div>{this.convertTime(this.props.value)}</div>
-                    <div>{this.convertTime(this.props.max)}</div>
+                    <div>-{this.convertTime(this.props.max)}</div>
                 </div>
             </div>
         );
@@ -128,16 +127,18 @@ class PlaybackButtons extends Component {
     }
 
     render() {
+        const url = "files/images";
+
         return (
             <div className="playback-button-container">
-                <Rewind className="previous"
-                    onClick={this.previous}/>
-                <Play className={`play ${this.props.isPlaying ? 'hidden' : ''}`}
-                    onClick={this.play}/>
-                <Pause className={`pause ${this.props.isPlaying ? '' : 'hidden'}`}
-                    onClick={this.pause}/>
-                <FastForward className="skip"
-                    onClick={this.skip}/>
+                <img alt="previous" className="previous"
+                    onClick={this.previous} src={`${url}/skip_next.svg`}/>
+                <img alt="play" className={`play ${this.props.isPlaying ? 'hidden' : ''}`}
+                    onClick={this.play} src={`${url}/play.svg`}/>
+                <img alt="pause" className={`pause ${this.props.isPlaying ? '' : 'hidden'}`}
+                    onClick={this.pause} src={`${url}/pause.svg`}/>
+                <img alt="skip" className="skip"
+                    onClick={this.skip} src={`${url}/skip_next.svg`}/>
             </div>
         );
     }

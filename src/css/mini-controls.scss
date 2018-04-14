@@ -11,12 +11,6 @@
     background: rgba(245,245,245,0.8);
     transition: $transition;
 
-    &.playing {
-        .artwork {
-            transform: scale(1.2);
-        }
-    }
-
     @media #{$mobile} {
         &:not(.fullscreen) {
             border: none;
@@ -48,14 +42,24 @@
         border: none;
         margin-bottom: 1em;
         background: white;
+        cursor: default;
+
+
+        &.playing {
+            .artwork, .artwork-blur {
+                margin-top: 0.5em;
+                transform: scale(1.2);
+            }
+        }
 
         .artwork-container {
             height: 40vh;
             width: 100%;
             padding: 1em 0;
 
-            .artwork {
+            .artwork, .artwork-blur {
                 height: 18em;
+                max-height: 90%;
                 border-radius: 4px;
             }
         }
@@ -75,12 +79,19 @@
         text-align: center;
         transition: $transition;
 
-        .artwork {
+        .artwork, .artwork-blur {
             height: 2.5em;
             width: auto;
             max-height: 100%;
             max-width: 100%;
+            pointer-events: none;
+            user-select: none;
             transition: $transition;
+        }
+
+        .artwork-blur{
+            position: absolute;
+            display: none;
         }
     }
 
@@ -109,70 +120,21 @@
         align-items: center;
         justify-content: flex-end;
         padding-right: 1em;
-    }
 
-    svg {
-        height: 2em;
-        width: 2em;
-        margin: 0 0.5em;
+        img {
+            height: 1.5em;
+            width: 1.5em;
+            margin: 0 0.5em;
+        }
+
+        .play, .pause {
+            width: 1.5em;
+            height: 1.5em;
+        }
+
+        .skip {
+            width: 1.8em;
+            height: 1.8em;
+        }
     }
 }
-
-/*
-.fucnk {
-
-    @media #{$mobile} {
-        border-top: 1px solid rgba(0,0,0,0.12);
-        border-bottom: 1px solid rgba(0,0,0,0.12);
-    }
-
-    &.fullscreen {
-        opacity: 0;
-        height: 2em;
-
-        svg {
-            display: none;
-        }
-    }
-
-    &.closing {
-        animation: fadein $duration;
-    }
-
-    .info-container {
-        display: flex;
-        align-content: center;
-        flex: 1;
-    }
-
-    .song-title {
-        flex: 1;
-        min-width: 0;
-        h3 {
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    }
-
-    .artwork {
-        height: 75%;
-        width: 3em;
-        margin: auto 0.5em;
-        box-shadow: 0 0 10px darkgray;
-        border-radius: 4px;
-        background-size: cover;
-        transition: background 1s;
-    }
-
-    .button-container {
-        display: flex;
-        align-items: center;
-        padding-right: 1em;
-    }
-
-    svg {
-        height: 2em;
-        width: 2em;
-        margin: auto 1em;
-    }
-}*/

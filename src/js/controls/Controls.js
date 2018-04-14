@@ -65,6 +65,9 @@ export default class Controls extends Component {
 
         return (
             <div className={`controls ${classNames}`}>
+                <div className="chevron-container" onClick={this.toggleFullscreen}>
+                    <img alt="close" className="chevron-wide" src="files/images/chevron_wide.svg" />
+                </div>
                 <MiniControls {...this.props}
                     track={track}
                     fullscreen={fullscreen}
