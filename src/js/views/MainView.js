@@ -43,7 +43,9 @@ export default class MainView extends Component {
         return (
             <div className={`view main-view ${this.props.classNames}`}>
                 <h1 className="view-header">Library</h1>
-                {this.renderNavButtons()}
+                <div className="button-container">
+                    {this.renderNavButtons()}
+                </div>
             </div>
         );
     }

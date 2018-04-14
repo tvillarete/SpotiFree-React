@@ -28,14 +28,16 @@
     $br: 6px;
     .logo-container {
         position: relative;
-        height: 15em;
-        width: 15em;
-        border-radius: 30px;
+        height: 30vh;
+        width: 30vh;
+        border-radius: 5vh;
         background: white;
         transition: all $duration ease;
         animation: fadeScaleIn 0.7s;
         display: flex;
+        //border: 1px solid $borderColor;
         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        animation: bsIn 1s;
 
         div {
             position: absolute;
@@ -46,7 +48,7 @@
 
         img {
             color: $red;
-            height: 10em;
+            height: 70%;
             width: auto;
             margin: auto;
             transition: all $duration ease;
@@ -55,6 +57,15 @@
         @keyframes fadeScaleIn {
             0% {
                 opacity: 0;
+            }
+        }
+
+        @keyframes bsIn {
+            0% {
+                box-shadow: none;
+            }
+            100% {
+                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
             }
         }
     }

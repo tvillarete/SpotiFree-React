@@ -49,17 +49,18 @@
             .artwork, .artwork-blur {
                 margin-top: 0.5em;
                 transform: scale(1.2);
+                box-shadow: 0 10px 30px #775c5c;
             }
         }
 
         .artwork-container {
             height: 40vh;
             width: 100%;
-            padding: 1em 0;
+            padding: 1.3em 0;
 
             .artwork, .artwork-blur {
                 height: 18em;
-                max-height: 90%;
+                max-height: 80%;
                 border-radius: 4px;
             }
         }

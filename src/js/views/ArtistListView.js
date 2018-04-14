@@ -80,7 +80,7 @@ export default class ArtistListView extends Component {
                     backText="Library"
                     onEvent={this.handleEvent}/>
                 <h1 className="view-header">Artists</h1>
-                <div className="artist-button-container">
+                <div className="button-container">
                     {this.state.data ? this.renderArtistButtons() : '' }
                 </div>
             </div>
