@@ -21,23 +21,46 @@ body {
     opacity: 0; } }
 .nav-button {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   padding-left: 0.5em;
   min-height: 3em;
   color: #ff2d55;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   cursor: pointer; }
   .nav-button:hover {
     background: rgba(0, 0, 0, 0.05); }
   .nav-button.black {
     color: black; }
+  .nav-button.with-subtext .text {
+    font-size: 1em; }
+  .nav-button.current-track .text {
+    color: #ff2d55; }
+  .nav-button .artwork {
+    height: 2.8em;
+    margin: 0 1em; }
+  .nav-button .left-container, .nav-button .right-container {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+  .nav-button .text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    height: 100%; }
+  .nav-button .left-container {
+    flex: 1; }
+  .nav-button .right-container {
+    padding-right: 0.5em; }
+  .nav-button .nav-icon {
+    color: rgba(0, 0, 0, 0.12); }
   .nav-button .text {
     margin: 0;
     font-size: 1.3em;
     font-weight: normal; }
   .nav-button .subtext {
-    display: none; }
+    margin: 0;
+    font-size: 0.8em;
+    font-weight: normal;
+    color: #969696; }
 
 .album-button {
   width: 200px;

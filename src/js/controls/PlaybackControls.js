@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { MoreHorizontal } from 'react-feather';
 import Slider from 'react-rangeslider';
+import OptionsButton from '../views/components/OptionsButton';
 import 'react-rangeslider/lib/index.css';
 
 export default class PlaybackControls extends Component {
@@ -34,7 +34,7 @@ export default class PlaybackControls extends Component {
                     value={this.props.track.volume}
                     tooltip={false}
                     onEvent={this.handleEvent}/>
-                <Options {...this.props}
+                <OptionsButton {...this.props}
                     onEvent={this.handleEvent}/>
             </div>
         );
@@ -169,41 +169,6 @@ class VolumeSlider extends Component {
                     className="volume-slider"
                     onChange={this.handleOnChange}
                 />
-            </div>
-        );
-    }
-}
-
-class Options extends Component {
-    handleEvent = options => {
-        this.props.onEvent(options);
-    }
-
-    /* Format:
-     * 'button title' : { action }
-     */
-    showPopup = () => {
-        this.props.onEvent({
-            type: 'popup',
-            topContainer: {
-                'Add to Playlist': {
-                    type: 'modal-open',
-                    modal: 'playlistSelector',
-                    value: this.props.track.meta
-                },
-            },
-            bottomContainer: {
-                'Cancel': {
-                    type: 'popup-close'
-                }
-            }
-        });
-    }
-
-    render() {
-        return (
-            <div className="options-container">
-                <MoreHorizontal onClick={this.showPopup} />
             </div>
         );
     }

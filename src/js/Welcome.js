@@ -5,7 +5,7 @@ export default class Welcome extends Component {
         return (
             <div className={`welcome-container ${this.props.isClosing ? 'closing' : ''}`}>
                 <div className="logo-container">
-                    <img src="files/images/note.svg" />
+                    <img alt="note" src="files/images/note.svg" />
                 </div>
             </div>
         );

@@ -49,7 +49,6 @@ export default class PlaylistView extends Component {
 
     renderTrackButtons() {
         let trackButtons = [];
-        console.log(this.state.data);
 
         this.state.data.forEach((data, index) => {
             if (!data)
@@ -58,6 +57,10 @@ export default class PlaylistView extends Component {
                 <TrackButton
                     key={index}
                     meta={data}
+                    text={data.name}
+                    subtext={data.artist}
+                    img={data.artwork}
+                    color={'black'}
                     isPlaying={false}
                     onEvent={this.handleEvent}/>
             );

@@ -33,6 +33,7 @@ export default class MainView extends Component {
                  view={button.view}
                  text={button.text}
                  subtext={button.subtext}
+                 chevron={true}
                  onEvent={this.handleEvent}/>
              );
             return navButtons;

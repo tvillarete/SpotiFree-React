@@ -62,6 +62,8 @@ export default class AlbumView extends Component {
                 <TrackButton
                     key={data.track}
                     meta={data}
+                    text={data.name}
+                    color="black"
                     isPlaying={false}
                     currentTrack={this.props.track.meta.name === data.name}
                     onEvent={this.handleEvent}/>

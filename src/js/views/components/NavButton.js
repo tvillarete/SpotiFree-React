@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ChevronRight } from 'react-feather';
 
 export default class NavButton extends Component {
     constructor(props) {
@@ -23,8 +24,22 @@ export default class NavButton extends Component {
         return (
             <div className={`nav-button ${this.props.color} ${this.props.subtext ? 'with-subtext' : ''}`}
              onClick={this.handleMainEvent}>
-                <h3 className="text">{this.props.text}</h3>
-                <h4 className="subtext">{this.props.subtext}</h4>
+                <div className="left-container">
+                    {this.props.img
+                        ? <img alt="Artwork" src={this.props.img} />
+                        : ''}
+                    <div className="text-container">
+                        <h3 className="text">{this.props.text}</h3>
+                        {this.props.subtext
+                            ? <h4 className="subtext">{this.props.subtext}</h4>
+                            : '' }
+                    </div>
+                </div>
+                <div className="right-container">
+                    {this.props.chevron
+                        ? <ChevronRight className="nav-icon" />
+                        : '' }
+                </div>
             </div>
         );
     }
